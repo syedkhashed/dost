@@ -1,6 +1,3 @@
-
-
-
 import os
 import streamlit as st
 from langchain_groq import ChatGroq
@@ -39,10 +36,9 @@ def chat_with_user(user_input):
         # Invoke Llama model via Groq API
         response = llm.invoke(prompt)
         st.session_state.conversation_history.append(f"Chatbot: {response.content}")
-        return response.content
     except Exception as e:
         # Handle API errors
-        return f"Error: {str(e)}"
+        st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
 
 def main():
     st.title("Welcome to the chatbot!")
@@ -55,7 +51,6 @@ def main():
                 display: flex;
                 flex-direction: column;
                 height: 80vh;
-                overflow: hidden;
                 border: 1px solid #ddd;
                 background-color: #f9f9f9;
             }
@@ -64,8 +59,9 @@ def main():
                 overflow-y: auto;
                 padding: 10px;
                 display: flex;
-                flex-direction: column;
-                justify-content: flex-end;
+                flex-direction: column-reverse;
+                justify-content: flex-start;
+                height: calc(100% - 60px); /* Adjust height based on input box height */
             }
             .chat-message {
                 margin-bottom: 10px;
@@ -80,12 +76,9 @@ def main():
             }
             .input-container {
                 display: flex;
-                border-top: 1px solid #ddd;
                 padding: 10px;
                 background-color: #fff;
-                position: fixed;
-                bottom: 0;
-                width: 100%;
+                border-top: 1px solid #ddd;
                 box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
                 z-index: 1;
             }
@@ -99,13 +92,11 @@ def main():
         </style>
     """, unsafe_allow_html=True)
 
-    # Create chat layout
+    # Create chat layout with conversation history above input box
     chat_history_container = st.container()
-    input_container = st.container()
 
-    # Display conversation history
-    with chat_history_container:
-        st.markdown("")  # Create an empty container to hold chat history
+    # Input container
+    input_container = st.container()
 
     # Input container
     with input_container:
@@ -118,22 +109,19 @@ def main():
                 if user_input.lower() == "stop":
                     st.session_state.conversation_history.append("Chatbot: Goodbye! Take care!")
                     st.session_state.conversation_history = [INITIAL_MESSAGE]  # Reset history after goodbye
-                # Validate user input
                 elif user_input:
                     # Generate chatbot response
-                    response = chat_with_user(user_input)
+                    chat_with_user(user_input)
 
-                # Refresh chat history container
-                with chat_history_container:
-                    st.markdown("")  # Clear the previous display
-                    # Display chat history in chronological order
-                    for line in st.session_state.conversation_history:
-                        if line.startswith("You:"):
-                            st.markdown(f'<div class="chat-message user">{line}</div>', unsafe_allow_html=True)
-                        else:
-                            st.markdown(f'<div class="chat-message bot">{line}</div>', unsafe_allow_html=True)
-                    st.experimental_rerun()  # Force a rerun to refresh the chat history
+    # Display conversation history in the chat history container
+    with chat_history_container:
+        chat_history = ""
+        for line in reversed(st.session_state.conversation_history):
+            if line.startswith("You:"):
+                chat_history += f'<div class="chat-message user">{line}</div>'
+            else:
+                chat_history += f'<div class="chat-message bot">{line}</div>'
+        st.markdown(f'<div class="chat-history">{chat_history}</div>', unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
-
