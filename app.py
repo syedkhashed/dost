@@ -2,9 +2,13 @@ import os
 import streamlit as st
 from langchain_groq import ChatGroq
 
-# Load Groq API key and model name from environment variables
-GROQ_API_KEY = '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'
-MODEL_NAME = "llama-3.1-70b-versatile"
+# # Load Groq API key and model name from environment variables
+# GROQ_API_KEY = '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'
+# MODEL_NAME = "llama-3.1-70b-versatile"
+
+# Load environment variables from .env file
+load_dotenv()
+
 
 # Initialize the Llama 3.1 model using Groq API
 llm = ChatGroq(
