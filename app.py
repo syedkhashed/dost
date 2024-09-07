@@ -1,9 +1,4 @@
-if 'rerun' not in st.session_state:
-    st.session_state['rerun'] = False
 
-if st.session_state['rerun']:
-    st.session_state['rerun'] = False
-    st.experimental_rerun()
 
 
 import os
