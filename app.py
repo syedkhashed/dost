@@ -24,18 +24,21 @@ def chat_with_user(user_input):
     """Track conversation history, understand user's emotions and feelings, and provide motivational suggestions."""
     st.session_state.conversation_history.append(f"You: {user_input}")
 
-    # Modify prompt to better understand user's problem and emotions
+    # Create prompt with the full conversation history
+    conversation_history = "\n".join(st.session_state.conversation_history)
     prompt = (
-        "The user said: {}. Understand user's emotion, feelings, and mental state "
-        "by getting more details, interacting friendly and comfortably with words, "
-        "generate proverbs and quotes according to the situation, considering human psychology. "
-        "Generate the response thinking it was given to user and do not generate large responses."
-    ).format(user_input)
+        f"Here is the conversation history:\n{conversation_history}\n\n"
+        "Respond to the latest user input considering the entire conversation history. "
+        "Understand user's emotion, feelings, and mental state by interacting friendly and comfortably, "
+        "generating proverbs and quotes according to the situation, considering human psychology. "
+        "Generate a concise and relevant response."
+    )
 
     try:
         # Invoke Llama model via Groq API
         response = llm.invoke(prompt)
-        st.session_state.conversation_history.append(f"Chatbot: {response.content}")
+        chatbot_response = response.content.strip()
+        st.session_state.conversation_history.append(f"Chatbot: {chatbot_response}")
     except Exception as e:
         # Handle API errors
         st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
