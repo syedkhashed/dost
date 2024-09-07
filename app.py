@@ -28,10 +28,13 @@ def chat_with_user(user_input):
     conversation_history = "\n".join(st.session_state.conversation_history)
     prompt = (
         f"Here is the conversation history:\n{conversation_history}\n\n"
-        "Respond to the latest user input considering the entire conversation history. "
-        "Understand user's emotion, feelings, and mental state by interacting friendly and comfortably, "
-        "generating proverbs and quotes according to the situation, considering human psychology. "
-        "Generate a concise and relevant response."
+    "Respond to the latest user input considering the entire conversation history. "
+    "Understand the user's emotions, feelings, and mental state by interacting in a friendly, empathetic, "
+    "and supportive manner. Tailor your response to build trust and provide comfort. "
+    "Include a single relevant proverb or quote according to the user's situation, without mentioning the author. "
+    "Ensure the proverb or quote is uplifting and appropriate. Make sure your response is non-judgmental and respectful, "
+    "fostering a safe and inclusive environment. Use insights from human psychology to guide your response, and generate "
+    "a concise, relevant reply that aligns with these goals."
     )
 
     try:
