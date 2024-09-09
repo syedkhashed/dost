@@ -112,11 +112,11 @@ def main():
     with input_container:
         with st.form("chat_form", clear_on_submit=True):
             user_input = st.text_input("", placeholder="Enter your message", key="input_box")
-            submit_button = st.form_submit_button("Send")
+            submit_button = st.form_submit_button("➤")
 
             if submit_button:
-                # Exit conversation when user types 'stop'
-                if user_input.lower() == "stop":
+                # Exit conversation when user types 'bye'
+                if user_input.lower() == "bye":
                     st.session_state.conversation_history.append("Chatbot: Goodbye! Take care!")
                     st.session_state.conversation_history = [INITIAL_MESSAGE]  # Reset history after goodbye
                 elif user_input:
