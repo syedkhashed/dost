@@ -39,7 +39,7 @@ def chat_with_user(user_input):
         "Include a single relevant proverb or quote according to the user's situation, without mentioning the author. "
         "Ensure the proverb or quote is uplifting and appropriate. Make sure your response is non-judgmental and respectful, "
         "fostering a safe and inclusive environment. Use insights from human psychology to guide your response, and generate "
-        "a concise, relevant reply that aligns with these goals."
+        "a concise, relevant reply that aligns with these goals and don't generate large responses."
     )
 
     try:
