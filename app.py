@@ -10,8 +10,8 @@ load_dotenv()
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 MODEL_NAME = os.getenv('MODEL_NAME')
 
-# Initialize the Llama 3.1 model using Groq API
 
+# Initialize the Llama 3.1 model using Groq API
 llm = ChatGroq(
     temperature=0.7,
     groq_api_key=GROQ_API_KEY,
@@ -52,12 +52,24 @@ def chat_with_user(user_input):
         st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
 
 def main():
-    st.title("Welcome to the chatbot!")
-    st.write("Type 'bye' to exit.")
-
-    # Custom CSS for chat layout
-    st.markdown("""
+    st.write(
+        """
         <style>
+            .header-container {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                background-color: #f1f1f1;
+                border-bottom: 1px solid #ddd;
+            }
+            .header-logo {
+                margin-right: 20px;
+            }
+            .header-message {
+                font-size: 24px;
+                font-weight: bold;
+                color: #333;
+            }
             .chat-container {
                 display: flex;
                 flex-direction: column;
@@ -115,7 +127,20 @@ def main():
                 background-color: #0056b3;
             }
         </style>
+        """, unsafe_allow_html=True
+    )
+
+    # Header with logo and welcome message
+    st.markdown("""
+        <div class="header-container">
+            <div class="header-logo">
+                <img src="https://i.imgur.com/fdGSoqQ.png" width="50" alt="Logo">
+            </div>
+            <div class="header-message">Welcome to the chatbot!</div>
+        </div>
     """, unsafe_allow_html=True)
+
+    st.write("Type 'bye' to exit.")
 
     # Create chat layout with conversation history above input box
     chat_history_container = st.container()
@@ -149,4 +174,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
