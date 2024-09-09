@@ -134,7 +134,7 @@ def main():
     st.markdown("""
         <div class="header-container">
             <div class="header-logo">
-                <img src="https://i.imgur.com/fdGSoqQ.png" width="50" alt="Logo">
+                <img src="https://i.imgur.com/fdGSoqQ.png" width="75" alt="Logo">
             </div>
             <div class="header-message">Welcome to the chatbot!</div>
         </div>
