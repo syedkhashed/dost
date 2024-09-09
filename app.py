@@ -11,6 +11,7 @@ GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 MODEL_NAME = os.getenv('MODEL_NAME')
 
 # Initialize the Llama 3.1 model using Groq API
+
 llm = ChatGroq(
     temperature=0.7,
     groq_api_key=GROQ_API_KEY,
@@ -44,7 +45,7 @@ def chat_with_user(user_input):
     try:
         # Invoke Llama model via Groq API
         response = llm.invoke(prompt)
-        chatbot_response = response.content.strip()
+        chatbot_response = response.content.strip() if hasattr(response, 'content') else "Sorry, I didn't get that."
         st.session_state.conversation_history.append(f"Chatbot: {chatbot_response}")
     except Exception as e:
         # Handle API errors
@@ -52,7 +53,7 @@ def chat_with_user(user_input):
 
 def main():
     st.title("Welcome to the chatbot!")
-    st.write("Type 'stop' to exit.")
+    st.write("Type 'bye' to exit.")
 
     # Custom CSS for chat layout
     st.markdown("""
@@ -71,7 +72,6 @@ def main():
                 display: flex;
                 flex-direction: column-reverse;
                 justify-content: flex-start;
-                height: calc(100% - 60px); /* Adjust height based on input box height */
             }
             .chat-message {
                 margin-bottom: 10px;
@@ -99,28 +99,42 @@ def main():
                 border-radius: 4px;
                 margin-right: 10px;
             }
+            .input-container button {
+                padding: 10px;
+                border: none;
+                border-radius: 4px;
+                background-color: #007bff;
+                color: white;
+                cursor: pointer;
+                font-size: 16px; /* Adjust size to fit the icon */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .input-container button:hover {
+                background-color: #0056b3;
+            }
         </style>
     """, unsafe_allow_html=True)
 
     # Create chat layout with conversation history above input box
     chat_history_container = st.container()
-
-    # Input container
     input_container = st.container()
 
     # Input container
     with input_container:
         with st.form("chat_form", clear_on_submit=True):
-            user_input = st.text_input("", placeholder="Enter your message", key="input_box")
-            submit_button = st.form_submit_button("➤")
+            col1, col2 = st.columns([4, 1])  # Adjust column sizes as needed
+            with col1:
+                user_input = st.text_input("", placeholder="Enter your message", key="input_box")
+            with col2:
+                submit_button = st.form_submit_button("➤")  # Using "➤" as the send symbol
 
             if submit_button:
-                # Exit conversation when user types 'bye'
                 if user_input.lower() == "bye":
                     st.session_state.conversation_history.append("Chatbot: Goodbye! Take care!")
-                    st.session_state.conversation_history = [INITIAL_MESSAGE]  # Reset history after goodbye
+                    st.session_state.conversation_history = [INITIAL_MESSAGE]  # Optionally reset history after goodbye
                 elif user_input:
-                    # Generate chatbot response
                     chat_with_user(user_input)
 
     # Display conversation history in the chat history container
@@ -135,3 +149,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
