@@ -38,7 +38,7 @@ def chat_with_user(user_input):
         "Include a single relevant proverb or quote according to the user's situation, without mentioning the author. "
         "Ensure the proverb or quote is uplifting and appropriate. Make sure your response is non-judgmental and respectful, "
         "fostering a safe and inclusive environment. Use insights from human psychology to guide your response, and generate "
-        "a concise, relevant reply that aligns with these goals and generate precise response by interacting to get more information.and do not generate large responses"
+        "a concise, relevant reply that aligns with these goals and generate precise response by interacting to get more information."
     )
 
     try:
@@ -51,6 +51,8 @@ def chat_with_user(user_input):
         st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
 
 def main():
+    st.set_page_config(page_title="Chatbot", layout="wide")  # Set wide mode
+
     st.write(
         """
         <style>
@@ -109,56 +111,63 @@ def main():
                 border: 1px solid #ddd;
                 border-radius: 4px;
                 margin-bottom: 10px;
+                width: 100%; /* Ensure input box is full width */
+            }
+            .button-container {
+                display: flex;
+                flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+                gap: 10px; /* Space between buttons */
             }
             .input-container button {
                 padding: 10px;
                 border: none;
-                border-radius: 8px; /* Rounded corners */
-                font-size: 16px; /* Font size */
-                font-weight: bold; /* Bold text */
-                color: white !important; /* White text */
-                cursor: pointer; /* Pointer cursor on hover */
-                margin-right: 5px;
-                transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transition */
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: bold;
+                color: white !important;
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             }
             .input-container button.send-button {
-                background-color: #87CEEB !important; /* Sky blue background */
+                background-color: #87CEEB !important;
+                flex: 1; /* Allow button to grow */
             }
             .input-container button.send-button:hover {
-                background-color: #00BFFF !important; /* Brighter blue on hover */
-                transform: scale(1.05); /* Slightly larger on hover */
-                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+                background-color: #00BFFF !important;
+                transform: scale(1.05);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             }
             .input-container button.restart-button {
-                background-color: #28a745 !important; /* Green background */
+                background-color: #28a745 !important;
+                flex: 1; /* Allow button to grow */
             }
             .input-container button.restart-button:hover {
-                background-color: #218838 !important; /* Darker green on hover */
-                transform: scale(1.05); /* Slightly larger on hover */
-                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+                background-color: #218838 !important;
+                transform: scale(1.05);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             }
             .feedback-button {
-                background-color: #87CEEB !important; /* Sky blue background */
-                color: white !important; /* White text */
-                border: none; /* No borders */
-                border-radius: 8px; /* Rounded corners */
-                padding: 12px 24px; /* Increased padding */
-                text-align: center; /* Centered text */
-                text-decoration: none; /* No underline */
-                display: inline-block; /* Inline-block display */
-                font-size: 18px; /* Larger font size */
-                font-weight: bold; /* Bold text */
-                cursor: pointer; /* Pointer cursor on hover */
-                margin-top: 15px; /* Top margin */
-                transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transition */
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+                background-color: #87CEEB !important;
+                color: white !important;
+                border: none;
+                border-radius: 8px;
+                padding: 12px 24px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 18px;
+                font-weight: bold;
+                cursor: pointer;
+                margin-top: 15px;
+                transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             }
             .feedback-button:hover {
-                background-color: #00BFFF !important; /* Brighter blue on hover */
-                color: white !important; /* Ensure text remains white on hover */
-                transform: scale(1.05); /* Slightly larger on hover */
-                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+                background-color: #00BFFF !important;
+                color: white !important;
+                transform: scale(1.05);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             }
         </style>
         """, unsafe_allow_html=True
@@ -212,3 +221,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
