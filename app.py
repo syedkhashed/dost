@@ -11,7 +11,6 @@ GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 MODEL_NAME = os.getenv('MODEL_NAME')
 
 
-# Initialize the Llama 3.1 model using Groq API
 llm = ChatGroq(
     temperature=0.7,
     groq_api_key=GROQ_API_KEY,
@@ -39,7 +38,7 @@ def chat_with_user(user_input):
         "Include a single relevant proverb or quote according to the user's situation, without mentioning the author. "
         "Ensure the proverb or quote is uplifting and appropriate. Make sure your response is non-judgmental and respectful, "
         "fostering a safe and inclusive environment. Use insights from human psychology to guide your response, and generate "
-        "a concise, relevant reply that aligns with these goals and generate precise response by interacting to get more information.don't generate large response"
+        "a concise, relevant reply that aligns with these goals and generate precise response by interacting to get more information."
     )
 
     try:
@@ -97,34 +96,69 @@ def main():
                 color: #28a745;
             }
             .input-container {
-                display: flex;
                 padding: 10px;
                 background-color: #fff;
                 border-top: 1px solid #ddd;
                 box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
                 z-index: 1;
+                display: flex;
+                flex-direction: column;
             }
             .input-container input {
-                flex: 1;
                 padding: 10px;
                 border: 1px solid #ddd;
                 border-radius: 4px;
-                margin-right: 10px;
+                margin-bottom: 10px;
             }
             .input-container button {
                 padding: 10px;
                 border: none;
-                border-radius: 4px;
-                background-color: #007bff;
-                color: white;
-                cursor: pointer;
-                font-size: 16px; /* Adjust size to fit the icon */
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                border-radius: 8px; /* Rounded corners */
+                font-size: 16px; /* Font size */
+                font-weight: bold; /* Bold text */
+                color: white !important; /* White text */
+                cursor: pointer; /* Pointer cursor on hover */
+                margin-right: 5px;
+                transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transition */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
             }
-            .input-container button:hover {
-                background-color: #0056b3;
+            .input-container button.send-button {
+                background-color: #87CEEB !important; /* Sky blue background */
+            }
+            .input-container button.send-button:hover {
+                background-color: #00BFFF !important; /* Brighter blue on hover */
+                transform: scale(1.05); /* Slightly larger on hover */
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+            }
+            .input-container button.restart-button {
+                background-color: #28a745 !important; /* Green background */
+            }
+            .input-container button.restart-button:hover {
+                background-color: #218838 !important; /* Darker green on hover */
+                transform: scale(1.05); /* Slightly larger on hover */
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+            }
+            .feedback-button {
+                background-color: #87CEEB !important; /* Sky blue background */
+                color: white !important; /* White text */
+                border: none; /* No borders */
+                border-radius: 8px; /* Rounded corners */
+                padding: 12px 24px; /* Increased padding */
+                text-align: center; /* Centered text */
+                text-decoration: none; /* No underline */
+                display: inline-block; /* Inline-block display */
+                font-size: 18px; /* Larger font size */
+                font-weight: bold; /* Bold text */
+                cursor: pointer; /* Pointer cursor on hover */
+                margin-top: 15px; /* Top margin */
+                transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transition */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            }
+            .feedback-button:hover {
+                background-color: #00BFFF !important; /* Brighter blue on hover */
+                color: white !important; /* Ensure text remains white on hover */
+                transform: scale(1.05); /* Slightly larger on hover */
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
             }
         </style>
         """, unsafe_allow_html=True
@@ -140,8 +174,6 @@ def main():
         </div>
     """, unsafe_allow_html=True)
 
-    st.write("Type 'bye' to exit.")
-
     # Create chat layout with conversation history above input box
     chat_history_container = st.container()
     input_container = st.container()
@@ -149,18 +181,24 @@ def main():
     # Input container
     with input_container:
         with st.form("chat_form", clear_on_submit=True):
-            col1, col2 = st.columns([4, 1])  # Adjust column sizes as needed
+            user_input = st.text_input("", placeholder="Enter your message", key="input_box")
+            col1, col2 = st.columns([2, 1])
             with col1:
-                user_input = st.text_input("", placeholder="Enter your message", key="input_box")
+                submit_button = st.form_submit_button("➤")  # Send button
             with col2:
-                submit_button = st.form_submit_button("➤")  # Using "➤" as the send symbol
+                restart_button = st.form_submit_button("⟳")  # Restart button
 
-            if submit_button:
-                if user_input.lower() == "bye":
-                    st.session_state.conversation_history.append("Chatbot: Goodbye! Take care!")
-                    st.session_state.conversation_history = [INITIAL_MESSAGE]  # Optionally reset history after goodbye
-                elif user_input:
-                    chat_with_user(user_input)
+            if submit_button and user_input:
+                chat_with_user(user_input)
+
+            if restart_button:
+                st.session_state.conversation_history = [INITIAL_MESSAGE]  # Reset history
+
+    # Feedback button outside the form
+    st.markdown("""
+        <a href="mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body=Please provide your feedback here."
+           class="feedback-button">📧 Feedback</a>
+    """, unsafe_allow_html=True)
 
     # Display conversation history in the chat history container
     with chat_history_container:
