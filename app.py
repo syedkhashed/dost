@@ -43,7 +43,7 @@ def chat_with_user(user_input):
 
 "4. Original Quote or Proverb: Include a unique, original quote or proverb that aligns with the user's situation. Ensure it is inspiring, relevant, and crafted specifically for the user’s context."
 
-"5. Medium Length: Craft your response to be of medium length—comprehensive enough to provide meaningful support and insight, yet concise enough to keep the user engaged without overwhelming them."
+"5. Small Length: Craft your response to be of small length—comprehensive enough to provide meaningful support and insight, yet concise enough to keep the user engaged without overwhelming them."
 
 "Your response should integrate these elements seamlessly, creating a supportive, empathetic, and engaging interaction tailored to the user’s needs."
     )
