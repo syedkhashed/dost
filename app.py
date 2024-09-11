@@ -11,6 +11,7 @@ GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 MODEL_NAME = os.getenv('MODEL_NAME')
 
 
+
 llm = ChatGroq(
     temperature=0.7,
     groq_api_key=GROQ_API_KEY,
@@ -53,7 +54,7 @@ def chat_with_user(user_input):
         st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
 
 def main():
-    st.set_page_config(page_title="Chatbot", layout="centered")  # Use centered layout for desktop, full width for mobile
+    st.set_page_config(page_title="Chatbot", layout="centered")  # Use centered layout by default
 
     st.write(
         """
@@ -176,16 +177,16 @@ def main():
                 transform: scale(1.05);
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             }
-            /* Conditional styling for mobile devices */
+            /* Ensure full width on mobile */
             @media (max-width: 768px) {
                 .stApp {
-                    max-width: 100vw; /* Full width on mobile */
+                    max-width: 100vw;
                 }
             }
-            /* Default to centered layout for desktop */
+            /* Center and limit width on desktop */
             @media (min-width: 769px) {
                 .stApp {
-                    max-width: 800px; /* Adjust width as needed */
+                    max-width: 800px; /* Adjust this width as needed */
                     margin: 0 auto;
                 }
             }
@@ -241,5 +242,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
