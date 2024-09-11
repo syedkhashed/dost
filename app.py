@@ -43,9 +43,9 @@ def chat_with_user(user_input):
 
 "4. Original Quote or Proverb: Include a unique, original quote or proverb that aligns with the user's situation. Ensure it is inspiring, relevant, and crafted specifically for the user’s context."
 
-"5. Small Length: Craft your response to be of small length—comprehensive enough to provide meaningful support and insight, yet concise enough to keep the user engaged without overwhelming them."
-        
-"6. Interactive Engagement: Engage with the user by asking thoughtful, open-ended questions to gather more information about their situation. This will help you understand their needs better and tailor your response more effectively."
+"5. Interactive Engagement: Engage with the user by asking thoughtful, open-ended questions to gather more information about their situation. This will help you understand their needs better and tailor your response more effectively."
+
+"6. Small Length: Craft your response to be of small length—comprehensive enough to provide meaningful support and insight, yet concise enough to keep the user engaged without overwhelming them."
 
 "Your response should integrate these elements seamlessly, creating a supportive, empathetic, and engaging interaction tailored to the user’s needs."
     )
