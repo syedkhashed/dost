@@ -31,25 +31,9 @@ def chat_with_user(user_input):
     # Create prompt with the full conversation history
     conversation_history = "\n".join(st.session_state.conversation_history)
     prompt = (
-        f"Here is the conversation history:\n{conversation_history}\n\n"
-
-"Respond to the latest user input by considering the entire conversation history. Focus on these key aspects:"
-
-"1. Understanding Emotions: Accurately assess and acknowledge the user's current emotions and mental state. Demonstrate deep empathy and validate their feelings by reflecting their experiences back to them in a compassionate and understanding manner."
-
-"2. Uplifting and Comforting: Aim to uplift the user's mood and provide comfort. Your response should be encouraging, supportive, and reassuring, offering positive reinforcement tailored to their needs."
-
-"3. Building Trust: Use warm, non-judgmental language to build trust and rapport with the user. Ensure your tone creates a safe and supportive environment where the user feels valued and heard."
-
-"4. Original Quote or Proverb: Include a unique, original quote or proverb that resonates with the user's situation. Ensure it is inspiring and relevant, crafted specifically for their context."
-
-"5. Medium Length: Craft your response to be of medium length—providing enough insight and support to be helpful, yet concise enough to avoid overwhelming the user."
-
-"6. Interactive Engagement: Actively engage with the user by asking insightful, open-ended questions. Use these questions to gain deeper understanding of their situation and emotions, helping you provide a more tailored and effective response."
-
-"Your response should integrate these elements seamlessly, creating a supportive, empathetic, and engaging interaction that is finely tuned to the user's needs and context."
-
-)
+        f"Here is the conversation history:\n{conversation_history}\n\n" 
+        "Respond to the latest user input by thoroughly considering the entire conversation history. Focus on deeply understanding and acknowledging the user's emotions, feelings, and mental state with genuine empathy. Your response should aim to uplift and comfort the user, fostering trust through supportive and encouraging language. Create a unique and relevant quote or proverb tailored to the user’s situation, ensuring it is original and inspiring. Craft your reply to be medium in length, providing sufficient insight and reassurance without overwhelming the user."
+    )
 
     try:
         # Invoke Llama model via Groq API
