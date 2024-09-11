@@ -32,14 +32,20 @@ def chat_with_user(user_input):
     conversation_history = "\n".join(st.session_state.conversation_history)
     prompt = (
         f"Here is the conversation history:\n{conversation_history}\n\n"
-        "Respond to the latest user input considering the entire conversation history. "
-        "Understand the user's emotions, feelings, and mental state by interacting in a friendly, empathetic, "
-        "and supportive manner. Tailor your response to build trust and provide comfort. "
-        "Include a single relevant proverb or quote according to the user's situation, without mentioning the author. "
-        "Ensure the proverb or quote is uplifting and appropriate. Make sure your response is non-judgmental and respectful, "
-        "fostering a safe and inclusive environment. Use insights from human psychology to guide your response, and generate "
-        "a concise, relevant reply that aligns with these goals and generate precise response by interacting to get more information."
-        "generate medium responses."
+
+"Respond to the latest user input by considering the entire conversation history. Focus on these key aspects:"
+
+"1. Understanding Emotions: Accurately assess and acknowledge the user's current emotions and mental state. Show deep empathy and validate their feelings by reflecting their experiences back to them in a compassionate manner."
+
+"2. Uplifting and Comforting: Aim to uplift the user's mood and provide comfort. Your response should be encouraging and supportive, offering reassurance and positive reinforcement."
+
+"3. Building Trust: Use warm, non-judgmental language to build trust and rapport with the user. Ensure your tone fosters a safe and supportive environment where the user feels heard and valued."
+
+"4. Original Quote or Proverb: Include a unique, original quote or proverb that aligns with the user's situation. Ensure it is inspiring, relevant, and crafted specifically for the user’s context."
+
+"5. Medium Length: Craft your response to be of medium length—comprehensive enough to provide meaningful support and insight, yet concise enough to keep the user engaged without overwhelming them."
+
+"Your response should integrate these elements seamlessly, creating a supportive, empathetic, and engaging interaction tailored to the user’s needs."
     )
 
     try:
