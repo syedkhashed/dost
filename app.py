@@ -5,28 +5,34 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
-# Debug: Print the environment variables to ensure they are loaded
-api_keys_str = os.getenv('GROQ_API_KEYS')
-print("GROQ_API_KEYS:", api_keys_str)  # Debugging print
+def get_environment_variable(var_name, default=None):
+    """ Helper function to get environment variables with default fallback """
+    value = os.getenv(var_name, default)
+    if value is None:
+        raise ValueError(f"Environment variable '{var_name}' is not set")
+    return value
 
-if api_keys_str is None:
-    raise ValueError("GROQ_API_KEYS environment variable is not set")
+try:
+    # Get the Groq API keys as a multi-line string
+    api_keys_str = get_environment_variable('GROQ_API_KEYS')
+    
+    # Debug: Print the raw environment variable value
+    print("GROQ_API_KEYS (raw):", api_keys_str)
 
-# Split the string into a list of keys (split by newlines)
-api_keys_list = api_keys_str.splitlines()
+    # Split the string into a list of keys (split by newlines)
+    api_keys_list = api_keys_str.splitlines()
+    
+    # Debug: Print the list of API keys to ensure it is parsed correctly
+    print("API Keys List:", api_keys_list)
 
-# Debug: Print the list of API keys to ensure it is parsed correctly
-print("API Keys List:", api_keys_list)  # Debugging print
+    if not api_keys_list:
+        raise ValueError("No API keys found in GROQ_API_KEYS")
 
-if not api_keys_list:
-    raise ValueError("No API keys found in GROQ_API_KEYS")
+    # Select a random API key from the list
+    GROQ_API_KEY = random.choice(api_keys_list).strip()
 
-# Select a random API key from the list
-GROQ_API_KEY = random.choice(api_keys_list).strip()
-
-
-
-MODEL_NAME = os.getenv('MODEL_NAME')
+    # Get the model name
+    MODEL_NAME = get_environment_variable('MODEL_NAME')
 
 
 
