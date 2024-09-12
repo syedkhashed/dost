@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 # Get the Groq API keys as a multi-line string
-api_keys_str = os.getenv('GROQ_API_KEY')
+api_keys_str = os.getenv('GROQ_API_KEYS')
 
 # Split the string into a list of keys (split by newlines)
 api_keys_list = api_keys_str.splitlines()
