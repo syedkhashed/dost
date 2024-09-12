@@ -1,4 +1,5 @@
 import os
+import random
 import streamlit as st
 from langchain_groq import ChatGroq
 from dotenv import load_dotenv
