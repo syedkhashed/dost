@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
+
+
 def get_environment_variable(var_name, default=None):
     """ Helper function to get environment variables with default fallback """
     value = os.getenv(var_name, default)
@@ -34,13 +36,21 @@ try:
     # Get the model name
     MODEL_NAME = get_environment_variable('MODEL_NAME')
 
+    # Debug: Print the selected API key and model name
+    print("Selected API Key:", GROQ_API_KEY)
+    print("MODEL_NAME:", MODEL_NAME)
 
+    # Initialize ChatGroq with the random API key and model name
+    llm = ChatGroq(
+        temperature=0.7,
+        groq_api_key=GROQ_API_KEY,
+        model_name=MODEL_NAME
+    )
 
-llm = ChatGroq(
-    temperature=0.7,
-    groq_api_key=GROQ_API_KEY,
-    model_name=MODEL_NAME
-)
+except Exception as e:
+    # Print the exception message for debugging
+    print(f"An error occurred: {e}")
+
 
 # Predefined initial message
 INITIAL_MESSAGE = "Chatbot: Hi there! I'm here to listen and support you. How are you feeling today?"
