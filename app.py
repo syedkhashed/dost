@@ -49,8 +49,8 @@ except Exception as e:
 # Initialize ChatGroq with the random API key and model name
 llm = ChatGroq(
         temperature=0.7,
-        groq_api_key=GROQ_API_KEY,
-        model_name=MODEL_NAME
+        groq_api_key=api,
+        model_name=model
     )
 
 
