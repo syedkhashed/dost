@@ -5,14 +5,27 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
-# Get the Groq API keys as a multi-line string
+# Debug: Print the environment variables to ensure they are loaded
 api_keys_str = os.getenv('GROQ_API_KEYS')
+print("GROQ_API_KEYS:", api_keys_str)  # Debugging print
+
+if api_keys_str is None:
+    raise ValueError("GROQ_API_KEYS environment variable is not set")
 
 # Split the string into a list of keys (split by newlines)
 api_keys_list = api_keys_str.splitlines()
 
+# Debug: Print the list of API keys to ensure it is parsed correctly
+print("API Keys List:", api_keys_list)  # Debugging print
+
+if not api_keys_list:
+    raise ValueError("No API keys found in GROQ_API_KEYS")
+
 # Select a random API key from the list
 GROQ_API_KEY = random.choice(api_keys_list).strip()
+
+
+
 MODEL_NAME = os.getenv('MODEL_NAME')
 
 
