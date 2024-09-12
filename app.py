@@ -5,53 +5,14 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
-api=None
-model=None
-
-
-def get_environment_variable(var_name, default=None):
-    """ Helper function to get environment variables with default fallback """
-    value = os.getenv(var_name, default)
-    if value is None:
-        raise ValueError(f"Environment variable '{var_name}' is not set")
-    return value
-
-try:
-    # Get the Groq API keys as a multi-line string
-    api_keys_str = get_environment_variable('GROQ_API_KEYS')
-    
-    # Debug: Print the raw environment variable value
-    print("GROQ_API_KEYS (raw):", api_keys_str)
-
-    # Split the string into a list of keys (split by newlines)
-    api_keys_list = api_keys_str.splitlines()
-    
-    # Debug: Print the list of API keys to ensure it is parsed correctly
-    print("API Keys List:", api_keys_list)
-
-    if not api_keys_list:
-        raise ValueError("No API keys found in GROQ_API_KEYS")
-
-    # Select a random API key from the list
-    GROQ_API_KEY = random.choice(api_keys_list).strip()
-
-    # Get the model name
-    MODEL_NAME = get_environment_variable('MODEL_NAME')
-
-    api=GROQ_API_KEY
-    model=MODEL_NAME
-
-    
-
-except Exception as e:
-    # Print the exception message for debugging
-    print(f"An error occurred: {e}")
-# Initialize ChatGroq with the random API key and model name
+# Get Groq API key and model name from environment variables
+GROQ_API_KEY = os.getenv('GROQ_API_KEY')
+MODEL_NAME = os.getenv('MODEL_NAME')
 llm = ChatGroq(
-        temperature=0.7,
-        groq_api_key=api,
-        model_name=model
-    )
+    temperature=0.7,
+    groq_api_key=GROQ_API_KEY,
+    model_name=MODEL_NAME
+)
 
 
 # Predefined initial message
