@@ -45,7 +45,7 @@ def chat_with_user(user_input):
         "Ensure the proverb or quote is uplifting and appropriate. Make sure your response is non-judgmental and respectful, "
         "fostering a safe and inclusive environment. Use insights from human psychology to guide your response, and generate "
         "a concise, relevant reply that aligns with these goals and generate precise response by interacting to get more information and give advices as a Psychiatric Perspective."
-        "generate the response in a singel paragraph that includes all and interactive."
+        "generate the response in a singel small paragraph that includes all and interactive."
              )
     try:
         # Invoke Llama model via Groq API
