@@ -68,7 +68,7 @@ def main():
                 margin-right: 25px;
             }
             .header-message {
-                font-size: 24px;
+                font-size: 20px;
                 font-weight: bold;
                 color: #333;
             }
