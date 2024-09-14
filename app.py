@@ -60,12 +60,12 @@ def main():
             .header-container {
                 display: flex;
                 align-items: center;
-                padding: 1px;
+                padding: 10px;
                 background-color: #f1f1f1;
                 border-bottom: 1px solid #ddd;
             }
             .header-logo {
-                margin-right: 25px;
+                margin-right: 20px;
             }
             .header-message {
                 font-size: 20px;
