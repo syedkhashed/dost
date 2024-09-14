@@ -60,7 +60,7 @@ def main():
             .header-container {
                 display: flex;
                 align-items: center;
-                padding: 2px;
+                padding: 1px;
                 background-color: #f1f1f1;
                 border-bottom: 1px solid #ddd;
             }
