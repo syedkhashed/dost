@@ -48,6 +48,7 @@ def chat_with_user(user_input):
     except Exception as e:
         # Handle API errors
         st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
+image_url = os.getenv('IMAGE_URL')
 
 def main():
     st.set_page_config(page_title="Chatbot", layout="wide")  # Set wide mode
@@ -176,7 +177,7 @@ def main():
     st.markdown("""
         <div class="header-container">
             <div class="header-logo">
-                <img src="https://imgur.com/nnZtupY.png" width="75" alt="Logo">
+                <img src="{image_url}" width="75" alt="Logo">
             </div>
             <div class="header-message">Welcome to the chatbot!</div>
         </div>
