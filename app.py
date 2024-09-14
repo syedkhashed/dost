@@ -32,6 +32,7 @@ if "conversation_history" not in st.session_state:
     st.session_state.conversation_history = [INITIAL_MESSAGE]
 
 prompt = os.getenv('PROMPT')
+image_url = os.getenv('IMAGE_URL')
 
 def chat_with_user(user_input):
     """Track conversation history, understand user's emotions and feelings, and provide motivational suggestions."""
@@ -48,7 +49,7 @@ def chat_with_user(user_input):
     except Exception as e:
         # Handle API errors
         st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
-image_url = os.getenv('IMAGE_URL')
+
 
 def main():
     st.set_page_config(page_title="Chatbot", layout="wide")  # Set wide mode
