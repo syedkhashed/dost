@@ -31,7 +31,6 @@ INITIAL_MESSAGE = "Chatbot: Hi there! I'm here to listen and support you. How ar
 if "conversation_history" not in st.session_state:
     st.session_state.conversation_history = [INITIAL_MESSAGE]
 
-prompt = os.getenv('PROMPT')
 
 
 def chat_with_user(user_input):
