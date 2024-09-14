@@ -32,7 +32,7 @@ if "conversation_history" not in st.session_state:
     st.session_state.conversation_history = [INITIAL_MESSAGE]
 
 prompt = os.getenv('PROMPT')
-image_url = os.getenv('IMAGE_URL')
+
 
 def chat_with_user(user_input):
     """Track conversation history, understand user's emotions and feelings, and provide motivational suggestions."""
@@ -178,7 +178,7 @@ def main():
     st.markdown("""
         <div class="header-container">
             <div class="header-logo">
-                <img src='{image_url}' width="75" alt="Logo">
+                <img src='https://imgur.com/nnZtupY.png' width="75" alt="Logo">
             </div>
             <div class="header-message">Welcome to the chatbot!</div>
         </div>
