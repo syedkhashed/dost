@@ -65,7 +65,7 @@ def main():
                 border-bottom: 1px solid #ddd;
             }
             .header-logo {
-                margin-right: 20px;
+                margin-right: 25px;
             }
             .header-message {
                 font-size: 24px;
