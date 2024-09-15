@@ -33,24 +33,15 @@ if "conversation_history" not in st.session_state:
 
 
 
+chat_prompt = os.getenv("CHAT_PROMPT")
+
 def chat_with_user(user_input):
     """Track conversation history, understand user's emotions and feelings, and provide motivational suggestions."""
     st.session_state.conversation_history.append(f"You: {user_input}")
 
     # Create prompt with the full conversation history
     conversation_history = "\n".join(st.session_state.conversation_history)
-    prompt = (
-        f"Here is the conversation history:\n{conversation_history}\n\n"
-        "Respond to the latest user input considering the entire conversation history. "
-        "Understand the user's emotions, feelings, and mental state by interacting in a friendly, empathetic, "
-        "and supportive manner. Tailor your response to build trust and provide comfort. "
-        "Include new quotes or proverbs that are specifically crafted by you with simple words not existing ones to uplift and inspire the user based on their current situation. Ensure these quotes are unique and relevant to their experience "
-        "Ensure the proverb or quote is uplifting and appropriate. Make sure your response is non-judgmental and respectful, "
-        "fostering a safe and inclusive environment. Use insights from human psychology to guide your response, and generate "
-        "a concise, relevant reply that aligns with these goals and generate precise response by interacting to get more information and give advices as a Psychiatric Perspective."
-        "generate the response in a singel small paragraph that includes all and interactive."
-             )
-    #prompt = os.getenv('PROMPT')
+    prompt = chat_prompt.format(conversation_history=conversation_history)
     try:
         # Invoke Llama model via Groq API
         response = llm.invoke(prompt)
