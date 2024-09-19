@@ -15,7 +15,6 @@ api_keys_list = [key.strip() for key in api_keys_string.splitlines() if key.stri
 # Select a random API key from the list
 random_api_key = random.choice(api_keys_list)
 
-
 MODEL_NAME = os.getenv('MODEL_NAME')
 llm = ChatGroq(
     temperature=0.7,
@@ -23,15 +22,12 @@ llm = ChatGroq(
     model_name=MODEL_NAME
 )
 
-
 # Predefined initial message
 INITIAL_MESSAGE = "Chatbot: Hi there! I'm here to listen and support you. How are you feeling today?"
 
 # Conversation history tracking
 if "conversation_history" not in st.session_state:
     st.session_state.conversation_history = [INITIAL_MESSAGE]
-
-
 
 chat_prompt = os.getenv("CHAT_PROMPT")
 
@@ -50,7 +46,6 @@ def chat_with_user(user_input):
     except Exception as e:
         # Handle API errors
         st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
-
 
 def main():
     st.set_page_config(page_title="Chatbot", layout="wide")  # Set wide mode
@@ -90,14 +85,20 @@ def main():
             }
             .chat-message {
                 margin-bottom: 10px;
+                padding: 10px;
+                border-radius: 10px;
+                max-width: 70%;
+                word-wrap: break-word;
             }
             .chat-message.user {
-                text-align: right;
-                color: #007bff;
+                align-self: flex-end;
+                background-color: #e1ffc7; /* Light green for user */
+                color: #000;
             }
             .chat-message.bot {
-                text-align: left;
-                color: #28a745;
+                align-self: flex-start;
+                background-color: #d9edf7; /* Light blue for bot */
+                color: #000;
             }
             .input-container {
                 padding: 10px;
@@ -223,6 +224,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
