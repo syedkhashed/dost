@@ -53,6 +53,9 @@ def main():
     st.write(
         """
         <style>
+            body {
+                font-family: 'Arial', sans-serif;
+            }
             .header-container {
                 display: flex;
                 align-items: center;
@@ -64,7 +67,7 @@ def main():
                 margin-right: 20px;
             }
             .header-message {
-                font-size: 20px;
+                font-size: 24px;
                 font-weight: bold;
                 color: #333;
             }
@@ -74,6 +77,8 @@ def main():
                 height: 80vh;
                 border: 1px solid #ddd;
                 background-color: #f9f9f9;
+                border-radius: 8px;
+                overflow: hidden;
             }
             .chat-history {
                 flex: 1;
@@ -87,7 +92,7 @@ def main():
                 margin-bottom: 10px;
                 padding: 10px;
                 border-radius: 10px;
-                max-width: 70%;
+                max-width: 80%;
                 word-wrap: break-word;
             }
             .chat-message.user {
@@ -114,12 +119,12 @@ def main():
                 border: 1px solid #ddd;
                 border-radius: 4px;
                 margin-bottom: 10px;
-                width: 100%; /* Ensure input box is full width */
+                width: 100%;
             }
             .button-container {
                 display: flex;
-                flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
-                gap: 10px; /* Space between buttons */
+                flex-wrap: wrap;
+                gap: 10px;
             }
             .input-container button {
                 padding: 10px;
@@ -131,10 +136,10 @@ def main():
                 cursor: pointer;
                 transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                flex: 1;
             }
             .input-container button.send-button {
                 background-color: #87CEEB !important;
-                flex: 1; /* Allow button to grow */
             }
             .input-container button.send-button:hover {
                 background-color: #00BFFF !important;
@@ -143,7 +148,6 @@ def main():
             }
             .input-container button.restart-button {
                 background-color: #28a745 !important;
-                flex: 1; /* Allow button to grow */
             }
             .input-container button.restart-button:hover {
                 background-color: #218838 !important;
@@ -172,19 +176,28 @@ def main():
                 transform: scale(1.05);
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             }
+            @media (max-width: 600px) {
+                .header-message {
+                    font-size: 20px;
+                }
+                .input-container input {
+                    font-size: 14px;
+                }
+                .chat-message {
+                    font-size: 14px;
+                }
+            }
         </style>
         """, unsafe_allow_html=True
     )
 
     # Header with logo and welcome message
-    st.markdown("""
-        <div class="header-container">
-            <div class="header-logo">
-                <img src='https://imgur.com/nnZtupY.png' width="100" alt="Logo">
-            </div>
-            <div class="header-message">Welcome to the chatbot!</div>
+    st.markdown("""<div class="header-container">
+        <div class="header-logo">
+            <img src='https://imgur.com/nnZtupY.png' width="100" alt="Logo">
         </div>
-    """, unsafe_allow_html=True)
+        <div class="header-message">Welcome to the chatbot!</div>
+    </div>""", unsafe_allow_html=True)
 
     # Create chat layout with conversation history above input box
     chat_history_container = st.container()
@@ -207,10 +220,8 @@ def main():
                 st.session_state.conversation_history = [INITIAL_MESSAGE]  # Reset history
 
     # Feedback button outside the form
-    st.markdown("""
-        <a href="mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body=Please provide your feedback here."
-           class="feedback-button">📧 Feedback</a>
-    """, unsafe_allow_html=True)
+    st.markdown("""<a href="mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body=Please provide your feedback here."
+       class="feedback-button">📧 Feedback</a>""", unsafe_allow_html=True)
 
     # Display conversation history in the chat history container
     with chat_history_container:
