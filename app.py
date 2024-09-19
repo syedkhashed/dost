@@ -206,7 +206,7 @@ def main():
             user_input = st.text_input("", placeholder="Enter your message", key="input_box")
             col1, col2 = st.columns([2, 1])
             with col1:
-                submit_button = st.form_submit_button("➤", key="send_button")  # Send button
+                submit_button = st.form_submit_button("➤")  # Send button
             with col2:
                 restart_button = st.form_submit_button("⟳")  # Restart button
 
