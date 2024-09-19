@@ -6,8 +6,14 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Get the API keys as a single string from the environment variable
 api_keys_string = os.getenv('GROQ_API_KEYS')
+
+# Split the string by newlines and remove any extra whitespace
 api_keys_list = [key.strip() for key in api_keys_string.splitlines() if key.strip()]
+
+# Select a random API key from the list
 random_api_key = random.choice(api_keys_list)
 
 MODEL_NAME = os.getenv('MODEL_NAME')
@@ -17,46 +23,49 @@ llm = ChatGroq(
     model_name=MODEL_NAME
 )
 
+# Predefined initial message
 INITIAL_MESSAGE = "Chatbot: Hi there! I'm here to listen and support you. How are you feeling right now?"
 
+# Conversation history tracking
 if "conversation_history" not in st.session_state:
     st.session_state.conversation_history = [INITIAL_MESSAGE]
 
 chat_prompt = os.getenv("CHAT_PROMPT")
 
 def chat_with_user(user_input):
+    """Track conversation history, understand user's emotions and feelings, and provide motivational suggestions."""
     st.session_state.conversation_history.append(f"You: {user_input}")
+
+    # Create prompt with the full conversation history
     conversation_history = "\n".join(st.session_state.conversation_history)
     prompt = chat_prompt.format(conversation_history=conversation_history)
     try:
+        # Invoke Llama model via Groq API
         response = llm.invoke(prompt)
         chatbot_response = response.content.strip() if hasattr(response, 'content') else "Sorry, I didn't get that."
         st.session_state.conversation_history.append(f"Chatbot: {chatbot_response}")
     except Exception as e:
+        # Handle API errors
         st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
 
 def main():
-    st.set_page_config(page_title="Chatbot", layout="wide")
+    st.set_page_config(page_title="Chatbot", layout="wide")  # Set wide mode
 
     st.write(
         """
         <style>
             body {
                 font-family: 'Arial', sans-serif;
-                background: linear-gradient(135deg, #f3f4f6, #e2e8f0);
-                padding: 20px;
             }
             .header-container {
                 display: flex;
                 align-items: center;
-                padding: 15px;
-                background-color: #ffffff;
-                border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-                margin-bottom: 20px;
+                padding: 10px;
+                background-color: #f1f1f1;
+                border-bottom: 1px solid #ddd;
             }
             .header-logo {
-                margin-right: 15px;
+                margin-right: 20px;
             }
             .header-message {
                 font-size: 24px;
@@ -66,12 +75,11 @@ def main():
             .chat-container {
                 display: flex;
                 flex-direction: column;
-                height: 70vh;
+                height: 80vh;
                 border: 1px solid #ddd;
                 background-color: #f9f9f9;
                 border-radius: 8px;
                 overflow: hidden;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             }
             .chat-history {
                 flex: 1;
@@ -87,7 +95,6 @@ def main():
                 border-radius: 10px;
                 max-width: 80%;
                 word-wrap: break-word;
-                transition: background-color 0.3s;
             }
             .chat-message.user {
                 align-self: flex-end;
@@ -214,6 +221,7 @@ def main():
             with col2:
                 restart_button = st.form_submit_button("⟳", key="restart_button")  # Restart button
 
+            # Handle button clicks
             if submit_button and user_input:
                 chat_with_user(user_input)
 
