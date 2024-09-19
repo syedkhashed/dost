@@ -23,7 +23,7 @@ llm = ChatGroq(
 )
 
 # Predefined initial message
-INITIAL_MESSAGE = "Chatbot: Hi there! I'm here to listen and support you. How are you feeling today?"
+INITIAL_MESSAGE = "Chatbot: Hi there! I'm here to listen and support you. How are you feeling right now?"
 
 # Conversation history tracking
 if "conversation_history" not in st.session_state:
@@ -121,22 +121,19 @@ def main():
                 margin-bottom: 10px;
                 width: 100%;
             }
-            .button-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-            }
             .input-container button {
-                padding: 10px;
+                padding: 15px;  /* Increased size */
                 border: none;
                 border-radius: 8px;
-                font-size: 16px;
+                font-size: 18px;  /* Increased font size */
                 font-weight: bold;
                 color: white !important;
                 cursor: pointer;
                 transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
                 flex: 1;
+                position: relative;  /* For animation */
+                overflow: hidden;  /* For button effect */
             }
             .input-container button.send-button {
                 background-color: #87CEEB !important;
@@ -209,7 +206,7 @@ def main():
             user_input = st.text_input("", placeholder="Enter your message", key="input_box")
             col1, col2 = st.columns([2, 1])
             with col1:
-                submit_button = st.form_submit_button("➤")  # Send button
+                submit_button = st.form_submit_button("➤", key="send_button")  # Send button
             with col2:
                 restart_button = st.form_submit_button("⟳")  # Restart button
 
