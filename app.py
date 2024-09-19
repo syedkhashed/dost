@@ -6,8 +6,13 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
+# Get the API keys as a single string from the environment variable
 api_keys_string = os.getenv('GROQ_API_KEYS')
+
+# Split the string by newlines and remove any extra whitespace
 api_keys_list = [key.strip() for key in api_keys_string.splitlines() if key.strip()]
+
+# Select a random API key from the list
 random_api_key = random.choice(api_keys_list)
 
 MODEL_NAME = os.getenv('MODEL_NAME')
@@ -17,63 +22,63 @@ llm = ChatGroq(
     model_name=MODEL_NAME
 )
 
+# Predefined initial message
 INITIAL_MESSAGE = "Chatbot: Hi there! I'm here to listen and support you. How are you feeling right now?"
 
+# Conversation history tracking
 if "conversation_history" not in st.session_state:
     st.session_state.conversation_history = [INITIAL_MESSAGE]
 
 chat_prompt = os.getenv("CHAT_PROMPT")
 
 def chat_with_user(user_input):
+    """Track conversation history, understand user's emotions and feelings, and provide motivational suggestions."""
     st.session_state.conversation_history.append(f"You: {user_input}")
+
+    # Create prompt with the full conversation history
     conversation_history = "\n".join(st.session_state.conversation_history)
     prompt = chat_prompt.format(conversation_history=conversation_history)
     try:
+        # Invoke Llama model via Groq API
         response = llm.invoke(prompt)
         chatbot_response = response.content.strip() if hasattr(response, 'content') else "Sorry, I didn't get that."
         st.session_state.conversation_history.append(f"Chatbot: {chatbot_response}")
     except Exception as e:
+        # Handle API errors
         st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
 
 def main():
-    st.set_page_config(page_title="Chatbot", layout="wide")
+    st.set_page_config(page_title="Chatbot", layout="wide")  # Set wide mode
 
     st.write(
         """
         <style>
             body {
                 font-family: 'Arial', sans-serif;
-                background: linear-gradient(135deg, #f3f4f6, #e2e8f0);
             }
             .header-container {
                 display: flex;
                 align-items: center;
-                padding: 15px;
-                background-color: #ffffff;
+                padding: 10px;
+                background-color: #f1f1f1;
                 border-bottom: 1px solid #ddd;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             }
             .header-logo {
-                margin-right: 15px;
+                margin-right: 20px;
             }
             .header-message {
                 font-size: 24px;
                 font-weight: bold;
                 color: #333;
-                text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
             }
             .chat-container {
                 display: flex;
                 flex-direction: column;
                 height: 80vh;
                 border: 1px solid #ddd;
-                border-radius: 12px;
+                background-color: #f9f9f9;
+                border-radius: 8px;
                 overflow: hidden;
-                background-color: #ffffff;
-                transition: box-shadow 0.3s;
-            }
-            .chat-container:hover {
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             }
             .chat-history {
                 flex: 1;
@@ -86,23 +91,19 @@ def main():
             .chat-message {
                 margin-bottom: 10px;
                 padding: 10px;
-                border-radius: 12px;
+                border-radius: 10px;
                 max-width: 80%;
                 word-wrap: break-word;
-                transition: background-color 0.3s, transform 0.3s;
             }
             .chat-message.user {
                 align-self: flex-end;
-                background-color: #d1fae5; /* Light green for user */
+                background-color: #e1ffc7; /* Light green for user */
                 color: #000;
             }
             .chat-message.bot {
                 align-self: flex-start;
-                background-color: #e0f2fe; /* Light blue for bot */
+                background-color: #d9edf7; /* Light blue for bot */
                 color: #000;
-            }
-            .chat-message:hover {
-                transform: scale(1.02);
             }
             .input-container {
                 padding: 10px;
@@ -114,44 +115,44 @@ def main():
                 flex-direction: column;
             }
             .input-container input {
-                padding: 15px;
+                padding: 10px;
                 border: 1px solid #ddd;
-                border-radius: 8px;
+                border-radius: 4px;
                 margin-bottom: 10px;
                 width: 100%;
-                font-size: 16px;
             }
             .input-container button {
-                padding: 15px;
+                padding: 15px;  /* Increased size */
                 border: none;
                 border-radius: 8px;
-                font-size: 18px;
+                font-size: 18px;  /* Increased font size */
                 font-weight: bold;
                 color: white !important;
                 cursor: pointer;
                 transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
                 flex: 1;
-                position: relative;
+                position: relative;  /* For animation */
+                overflow: hidden;  /* For button effect */
             }
             .input-container button.send-button {
-                background-color: #3b82f6 !important;
+                background-color: #87CEEB !important;
             }
             .input-container button.send-button:hover {
-                background-color: #2563eb !important;
+                background-color: #00BFFF !important;
                 transform: scale(1.05);
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             }
             .input-container button.restart-button {
-                background-color: #4ade80 !important;
+                background-color: #28a745 !important;
             }
             .input-container button.restart-button:hover {
-                background-color: #22c55e !important;
+                background-color: #218838 !important;
                 transform: scale(1.05);
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             }
             .feedback-button {
-                background-color: #3b82f6 !important;
+                background-color: #87CEEB !important;
                 color: white !important;
                 border: none;
                 border-radius: 8px;
@@ -167,7 +168,7 @@ def main():
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             }
             .feedback-button:hover {
-                background-color: #2563eb !important;
+                background-color: #00BFFF !important;
                 color: white !important;
                 transform: scale(1.05);
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
@@ -205,15 +206,15 @@ def main():
             user_input = st.text_input("", placeholder="Enter your message", key="input_box")
             col1, col2 = st.columns([2, 1])
             with col1:
-                submit_button = st.form_submit_button("➤", key="send_button")  # Send button
+                submit_button = st.form_submit_button("➤")  # Send button
             with col2:
-                restart_button = st.form_submit_button("⟳", key="restart_button")  # Restart button
+                restart_button = st.form_submit_button("⟳")  # Restart button
 
             if submit_button and user_input:
                 chat_with_user(user_input)
 
             if restart_button:
-                st.session_state.conversation_history = [INITIAL_MESSAGE]
+                st.session_state.conversation_history = [INITIAL_MESSAGE]  # Reset history
 
     # Feedback button outside the form
     st.markdown("""<a href="mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body=Please provide your feedback here."
