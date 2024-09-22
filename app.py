@@ -54,7 +54,7 @@ def main():
     st.markdown(
         """
         <script>
-            if (window.innerWidth <= 600) {
+            if (window.innerWidth <= 720) {
                 alert('Kindly use desktop mode for better experience.');
             }
         </script>
