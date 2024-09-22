@@ -251,24 +251,19 @@ def main():
         # Get user feedback
         feedback = st.text_area("Your Feedback:", "")
         
-        # Button to generate mailto link
+        # Automatically open mailto link when feedback is provided
         if st.button("Send Feedback"):
             if feedback:
                 feedback_link = f"mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body={feedback}"
-                #st.markdown(f"Thank you for your feedback! You can send it [here]({feedback_link}).")
+                st.markdown(f'<script>window.open("{feedback_link}");</script>', unsafe_allow_html=True)
+                st.success("Your feedback has been sent! Thank you.")
             else:
                 st.error("Please enter your feedback before sending.")
         
-        # Feedback button outside the form (optional)
-        if feedback:
-            st.markdown(f"""
-            <a href="{feedback_link}" class="feedback-button">📧 Send Feedback via Email</a>
-            """, unsafe_allow_html=True)
-
     elif menu_option == "About":
         # About section
         st.header("About")
-        st.write("""
+        st.write(""" 
         This is a model chatbot designed for mental health support. 
         It provides advice as a psychiatric friend and offers a non-judgmental listening ear. 
         Feel free to share your thoughts and emotions; we're here to help!
