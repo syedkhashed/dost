@@ -1,4 +1,4 @@
-import os
+streamlit run app.pyimport os
 import random
 import streamlit as st
 from langchain_groq import ChatGroq
@@ -54,7 +54,7 @@ def main():
     st.markdown(
         """
         <script>
-            if (window.innerWidth <= 720) {
+            if (window.innerWidth <= 600) {
                 alert('Kindly use desktop mode for better experience.');
             }
         </script>
@@ -62,9 +62,15 @@ def main():
         unsafe_allow_html=True
     )
 
-    st.write(
-        """
-        <style>
+    # Sidebar for navigation
+    st.sidebar.title("Menu")
+    menu_option = st.sidebar.radio("Select an option:", ["Home", "Feedback", "About"])
+
+    if menu_option == "Home":
+        # Chatbot interface
+        st.write(
+            """
+            <style>
             body {
                 font-family: 'Arial', sans-serif;
             }
@@ -197,50 +203,66 @@ def main():
                 }
             }
         </style>
-        """, unsafe_allow_html=True
-    )
+            """, unsafe_allow_html=True
+        )
 
-    # Header with logo and welcome message
-    st.markdown("""<div class="header-container">
-        <div class="header-logo">
-            <img src='https://imgur.com/nnZtupY.png' width="100" alt="Logo">
-        </div>
-        <div class="header-message">Welcome to the chatbot!</div>
-    </div>""", unsafe_allow_html=True)
+        st.markdown("""<div class="header-container">
+            <div class="header-logo">
+                <img src='https://imgur.com/nnZtupY.png' width="100" alt="Logo">
+            </div>
+            <div class="header-message">Welcome to the chatbot!</div>
+        </div>""", unsafe_allow_html=True)
 
-    # Create chat layout with conversation history above input box
-    chat_history_container = st.container()
-    input_container = st.container()
+        # Create chat layout with conversation history above input box
+        chat_history_container = st.container()
+        input_container = st.container()
 
-    # Input container
-    with input_container:
-        with st.form("chat_form", clear_on_submit=True):
-            user_input = st.text_input("", placeholder="Enter your message", key="input_box")
-            col1, col2 = st.columns([2, 1])
-            with col1:
-                submit_button = st.form_submit_button("➤")  # Send button
-            with col2:
-                restart_button = st.form_submit_button("⟳")  # Restart button
+        # Input container
+        with input_container:
+            with st.form("chat_form", clear_on_submit=True):
+                user_input = st.text_input("", placeholder="Enter your message", key="input_box")
+                col1, col2 = st.columns([2, 1])
+                with col1:
+                    submit_button = st.form_submit_button("➤")  # Send button
+                with col2:
+                    restart_button = st.form_submit_button("⟳")  # Restart button
 
-            if submit_button and user_input:
-                chat_with_user(user_input)
+                if submit_button and user_input:
+                    chat_with_user(user_input)
 
-            if restart_button:
-                st.session_state.conversation_history = [INITIAL_MESSAGE]  # Reset history
+                if restart_button:
+                    st.session_state.conversation_history = [INITIAL_MESSAGE]  # Reset history
 
-    # Feedback button outside the form
-    st.markdown("""<a href="mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body=Please provide your feedback here."
-       class="feedback-button">📧 Feedback</a>""", unsafe_allow_html=True)
+        # Display conversation history in the chat history container
+        with chat_history_container:
+            chat_history = ""
+            for line in reversed(st.session_state.conversation_history):
+                if line.startswith("You:"):
+                    chat_history += f'<div class="chat-message user">{line}</div>'
+                else:
+                    chat_history += f'<div class="chat-message bot">{line}</div>'
+            st.markdown(f'<div class="chat-history">{chat_history}</div>', unsafe_allow_html=True)
 
-    # Display conversation history in the chat history container
-    with chat_history_container:
-        chat_history = ""
-        for line in reversed(st.session_state.conversation_history):
-            if line.startswith("You:"):
-                chat_history += f'<div class="chat-message user">{line}</div>'
+    elif menu_option == "Feedback":
+        # Feedback section
+        st.header("Feedback")
+        st.write("We value your feedback! Please let us know your thoughts about the chatbot.")
+        feedback = st.text_area("Your Feedback:", "")
+        if st.button("Send Feedback"):
+            if feedback:
+                feedback_link = f"mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body={feedback}"
+                st.markdown(f"Thank you for your feedback! You can send it [here]({feedback_link}).")
             else:
-                chat_history += f'<div class="chat-message bot">{line}</div>'
-        st.markdown(f'<div class="chat-history">{chat_history}</div>', unsafe_allow_html=True)
+                st.error("Please enter your feedback before sending.")
+
+    elif menu_option == "About":
+        # About section
+        st.header("About")
+        st.write("""
+        This is a model chatbot designed for mental health support. 
+        It provides advice as a psychiatric friend and offers a non-judgmental listening ear. 
+        Feel free to share your thoughts and emotions; we're here to help!
+        """)
 
 if __name__ == "__main__":
     main()
