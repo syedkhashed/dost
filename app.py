@@ -202,7 +202,7 @@ def main():
                     font-size: 14px;
                 }
             }
-            </style>
+        </style>
             """, unsafe_allow_html=True
         )
 
@@ -247,28 +247,13 @@ def main():
         # Feedback section
         st.header("Feedback")
         st.write("We value your feedback! Please let us know your thoughts about the chatbot.")
-        
-        # Get user feedback
         feedback = st.text_area("Your Feedback:", "")
-        
-        # Store feedback in session state if available
-        if "feedback" not in st.session_state:
-            st.session_state.feedback = ""
-        
-        if st.button("Submit Feedback"):
+        if st.button("Send Feedback"):
             if feedback:
-                st.session_state.feedback = feedback
-                st.success("Thank you for your feedback! You can send it using the button below.")
+                feedback_link = f"mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body={feedback}"
+                st.markdown(f"Thank you for your feedback! You can send it [here]({feedback_link}).")
             else:
-                st.error("Please enter your feedback before submitting.")
-        
-        # Button to send feedback via email
-        if st.session_state.feedback:
-            feedback_link = f"mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body={st.session_state.feedback}"
-            if st.button("Send Feedback via Email"):
-                # Use JavaScript to open the email client
-                js_code = f"window.open('{feedback_link}');"
-                st.markdown(f'<script>{js_code}</script>', unsafe_allow_html=True)
+                st.error("Please enter your feedback before sending.")
 
     elif menu_option == "About":
         # About section
