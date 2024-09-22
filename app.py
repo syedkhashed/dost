@@ -50,6 +50,18 @@ def chat_with_user(user_input):
 def main():
     st.set_page_config(page_title="Chatbot", layout="wide")  # Set wide mode
 
+    # Popup message for mobile users
+    st.markdown(
+        """
+        <script>
+            if (window.innerWidth <= 600) {
+                alert('Kindly use desktop mode for better experience.');
+            }
+        </script>
+        """,
+        unsafe_allow_html=True
+    )
+
     st.write(
         """
         <style>
