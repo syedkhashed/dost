@@ -251,13 +251,19 @@ def main():
         # Get user feedback
         feedback = st.text_area("Your Feedback:", "")
         
-        # Button to send feedback via email
-        if st.button("Send Feedback"):
+        # Button to collect feedback
+        if st.button("Submit Feedback"):
             if feedback:
-                feedback_link = f"mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body={feedback}"
-                st.markdown(f'<script>window.location.href="{feedback_link}";</script>', unsafe_allow_html=True)
+                st.session_state.feedback = feedback  # Store feedback in session state
+                st.success("Thank you for your feedback! You can send it using the button below.")
             else:
-                st.error("Please enter your feedback before sending.")
+                st.error("Please enter your feedback before submitting.")
+        
+        # Button to send feedback via email
+        if "feedback" in st.session_state:
+            feedback_link = f"mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body={st.session_state.feedback}"
+            if st.button("Send Feedback via Email"):
+                st.markdown(f'<script>window.location.href="{feedback_link}";</script>', unsafe_allow_html=True)
 
     elif menu_option == "About":
         # About section
