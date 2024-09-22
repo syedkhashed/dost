@@ -255,11 +255,12 @@ def main():
         if st.button("Send Feedback"):
             if feedback:
                 feedback_link = f"mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body={feedback}"
-                st.markdown(f'<script>window.open("{feedback_link}");</script>', unsafe_allow_html=True)
+                # Directly open the user's mail client
+                st.markdown(f'<script>window.open("{feedback_link}", "_self");</script>', unsafe_allow_html=True)
                 st.success("Your feedback has been sent! Thank you.")
             else:
                 st.error("Please enter your feedback before sending.")
-        
+
     elif menu_option == "About":
         # About section
         st.header("About")
