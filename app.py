@@ -251,19 +251,13 @@ def main():
         # Get user feedback
         feedback = st.text_area("Your Feedback:", "")
         
-        # Button to generate mailto link
+        # Button to send feedback via email
         if st.button("Send Feedback"):
             if feedback:
                 feedback_link = f"mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body={feedback}"
-                st.markdown(f"Thank you for your feedback! You can send it [here]({feedback_link}).")
+                st.markdown(f'<script>window.location.href="{feedback_link}";</script>', unsafe_allow_html=True)
             else:
                 st.error("Please enter your feedback before sending.")
-        
-        # Feedback button outside the form (optional)
-        if feedback:
-            st.markdown(f"""
-            <a href="{feedback_link}" class="feedback-button">📧 Send Feedback via Email</a>
-            """, unsafe_allow_html=True)
 
     elif menu_option == "About":
         # About section
