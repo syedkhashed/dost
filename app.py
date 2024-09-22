@@ -252,7 +252,7 @@ def main():
         feedback = st.text_area("Your Feedback:", "")
         
         # Button to generate mailto link
-        if st.button("Send Feedback"):
+        if st.button("Generate Feedback Link"):
             if feedback:
                 feedback_link = f"mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body={feedback}"
                 #st.markdown(f"Thank you for your feedback! You can send it [here]({feedback_link}).")
