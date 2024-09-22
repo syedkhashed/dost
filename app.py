@@ -1,4 +1,4 @@
-streamlit run app.pyimport os
+import os
 import random
 import streamlit as st
 from langchain_groq import ChatGroq
