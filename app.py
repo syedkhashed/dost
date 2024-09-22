@@ -251,17 +251,19 @@ def main():
         # Get user feedback
         feedback = st.text_area("Your Feedback:", "")
         
-        # Button to collect feedback
+        # Store feedback in session state if available
+        if "feedback" not in st.session_state:
+            st.session_state.feedback = ""
+        
         if st.button("Submit Feedback"):
             if feedback:
-                # Store feedback in session state
                 st.session_state.feedback = feedback
                 st.success("Thank you for your feedback! You can send it using the button below.")
             else:
                 st.error("Please enter your feedback before submitting.")
         
         # Button to send feedback via email
-        if "feedback" in st.session_state:
+        if st.session_state.feedback:
             feedback_link = f"mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body={st.session_state.feedback}"
             if st.button("Send Feedback via Email"):
                 # Use JavaScript to open the email client
