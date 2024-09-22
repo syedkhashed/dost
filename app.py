@@ -263,7 +263,9 @@ def main():
         if "feedback" in st.session_state:
             feedback_link = f"mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body={st.session_state.feedback}"
             if st.button("Send Feedback via Email"):
-                st.markdown(f'<script>window.location.href="{feedback_link}";</script>', unsafe_allow_html=True)
+                # Use JavaScript to redirect to the email client
+                st.markdown(f'<script>window.open("{feedback_link}");</script>', unsafe_allow_html=True)
+
 
     elif menu_option == "About":
         # About section
