@@ -31,7 +31,7 @@ if "conversation_history" not in st.session_state:
 chat_prompt = os.getenv("CHAT_PROMPT")
 
 def chat_with_user(user_input):
-    """Track conversation history, understand user's emotions and feelings, and provide motivational suggestions."""
+    """Track conversation history and provide responses."""
     st.session_state.conversation_history.append(f"You: {user_input}")
 
     # Create prompt with the full conversation history
@@ -61,58 +61,45 @@ def main():
         unsafe_allow_html=True
     )
 
-    # Sidebar for navigation with dynamic styles
-    st.sidebar.title("Menu")
-    menu_option = st.sidebar.radio("Select an option:", ["Home", "Feedback", "About"], 
-                                     index=0, key="menu")
+    # Theme switching
+    theme = st.sidebar.selectbox("Select Theme:", ["Light", "Dark"])
 
-    # Apply dynamic styles to the sidebar
-    st.markdown("""
+    # Apply styles based on selected theme
+    if theme == "Dark":
+        bg_color = "#2E2E2E"
+        text_color = "#FFFFFF"
+        input_bg_color = "#444444"
+        button_color = "#4CAF50"
+    else:
+        bg_color = "#F9F9F9"
+        text_color = "#333333"
+        input_bg_color = "#FFFFFF"
+        button_color = "#87CEEB"
+
+    st.markdown(f"""
         <style>
-            .stRadio > label {
-                display: block;
-                padding: 12px;
-                margin: 5px 0;
-                border-radius: 8px;
-                background-color: #e8f5e9;
-                transition: background-color 0.3s, transform 0.2s;
-            }
-            .stRadio > label:hover {
-                background-color: #c8e6c9;  /* Light green on hover */
-                transform: scale(1.02);
-            }
-            .stRadio > div {
-                margin-bottom: 15px;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
-    if menu_option == "Home":
-        # Chatbot interface
-        st.write(
-            """
-            <style>
-            body {
-                font-family: 'Arial', sans-serif;
-            }
-            .header-container {
+            body {{
+                background-color: {bg_color};
+                color: {text_color};
+            }}
+            .header-container {{
                 display: flex;
                 align-items: center;
                 padding: 10px;
                 background-color: #f1f1f1;
                 border-bottom: 1px solid #ddd;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
-            .header-logo {
+            }}
+            .header-logo {{
                 margin-right: 20px;
-            }
-            .header-message {
+            }}
+            .header-message {{
                 font-size: 24px;
                 font-weight: bold;
-                color: #333;
+                color: {text_color};
                 text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
-            }
-            .chat-container {
+            }}
+            .chat-container {{
                 display: flex;
                 flex-direction: column;
                 height: 80vh;
@@ -121,57 +108,58 @@ def main():
                 border-radius: 8px;
                 overflow: hidden;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-            .chat-history {
+            }}
+            .chat-history {{
                 flex: 1;
                 overflow-y: auto;
                 padding: 10px;
                 display: flex;
                 flex-direction: column-reverse;
                 justify-content: flex-start;
-            }
-            .chat-message {
+            }}
+            .chat-message {{
                 margin-bottom: 10px;
                 padding: 10px;
                 border-radius: 10px;
                 max-width: 80%;
                 word-wrap: break-word;
                 transition: background-color 0.2s, transform 0.2s;
-            }
-            .chat-message.user {
+            }}
+            .chat-message.user {{
                 align-self: flex-end;
                 background-color: #e1ffc7; /* Light green for user */
                 color: #000;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            }
-            .chat-message.bot {
+            }}
+            .chat-message.bot {{
                 align-self: flex-start;
                 background-color: #d9edf7; /* Light blue for bot */
                 color: #000;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            }
-            .input-container {
+            }}
+            .input-container {{
                 padding: 10px;
-                background-color: #fff;
+                background-color: {input_bg_color};
                 border-top: 1px solid #ddd;
                 box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
                 z-index: 1;
                 display: flex;
                 flex-direction: column;
-            }
-            .input-container input {
+            }}
+            .input-container input {{
                 padding: 10px;
                 border: 1px solid #ddd;
                 border-radius: 4px;
                 margin-bottom: 10px;
                 width: 100%;
+                background-color: {input_bg_color};
                 transition: border 0.3s;
-            }
-            .input-container input:focus {
+            }}
+            .input-container input:focus {{
                 border: 1px solid #87CEEB;
                 outline: none;
-            }
-            .input-container button {
+            }}
+            .input-container button {{
                 padding: 15px;  
                 border: none;
                 border-radius: 8px;
@@ -182,24 +170,14 @@ def main():
                 transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
                 flex: 1;
-            }
-            .input-container button.send-button {
-                background-color: #87CEEB !important;
-            }
-            .input-container button.send-button:hover {
+                background-color: {button_color};
+            }}
+            .input-container button:hover {{
                 background-color: #00BFFF !important;
                 transform: scale(1.05);
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-            }
-            .input-container button.restart-button {
-                background-color: #28a745 !important;
-            }
-            .input-container button.restart-button:hover {
-                background-color: #218838 !important;
-                transform: scale(1.05);
-                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-            }
-            .feedback-button {
+            }}
+            .feedback-button {{
                 background-color: #87CEEB !important;
                 color: white !important;
                 border: none;
@@ -214,66 +192,79 @@ def main():
                 margin-top: 15px;
                 transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            }
-            .feedback-button:hover {
+            }}
+            .feedback-button:hover {{
                 background-color: #00BFFF !important;
                 transform: scale(1.05);
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-            }
-            @media (max-width: 600px) {
-                .header-message {
+            }}
+            @media (max-width: 600px) {{
+                .header-message {{
                     font-size: 20px;
-                }
-                .input-container input {
+                }}
+                .input-container input {{
                     font-size: 14px;
-                }
-                .chat-message {
+                }}
+                .chat-message {{
                     font-size: 14px;
-                }
-            }
-            </style>
-            """, unsafe_allow_html=True
-        )
+                }}
+            }}
+            /* Custom scrollbar styles */
+            ::-webkit-scrollbar {{
+                width: 10px;
+            }}
+            ::-webkit-scrollbar-track {{
+                background: #f1f1f1;
+            }}
+            ::-webkit-scrollbar-thumb {{
+                background: #888;
+                border-radius: 5px;
+            }}
+            ::-webkit-scrollbar-thumb:hover {{
+                background: #555;
+            }}
+        </style>
+    """, unsafe_allow_html=True)
 
-        st.markdown("""<div class="header-container">
-            <div class="header-logo">
-                <img src='https://imgur.com/nnZtupY.png' width="100" alt="Logo">
-            </div>
-            <div class="header-message">Welcome to the chatbot!</div>
-        </div>""", unsafe_allow_html=True)
+    st.markdown("""<div class="header-container">
+        <div class="header-logo">
+            <img src='https://imgur.com/nnZtupY.png' width="100" alt="Logo">
+        </div>
+        <div class="header-message">Welcome to the chatbot!</div>
+    </div>""", unsafe_allow_html=True)
 
-        # Create chat layout with conversation history above input box
-        chat_history_container = st.container()
-        input_container = st.container()
+    # Create chat layout with conversation history above input box
+    chat_history_container = st.container()
+    input_container = st.container()
 
-        # Input container
-        with input_container:
-            with st.form("chat_form", clear_on_submit=True):
-                user_input = st.text_input("", placeholder="Enter your message", key="input_box")
-                col1, col2 = st.columns([2, 1])
-                with col1:
-                    submit_button = st.form_submit_button("➤")  # Send button
-                with col2:
-                    restart_button = st.form_submit_button("⟳")  # Restart button
+    # Input container
+    with input_container:
+        with st.form("chat_form", clear_on_submit=True):
+            user_input = st.text_input("", placeholder="Enter your message", key="input_box")
+            col1, col2 = st.columns([2, 1])
+            with col1:
+                submit_button = st.form_submit_button("➤")  # Send button
+            with col2:
+                restart_button = st.form_submit_button("⟳")  # Restart button
 
-                if submit_button and user_input:
-                    chat_with_user(user_input)
+            if submit_button and user_input:
+                chat_with_user(user_input)
 
-                if restart_button:
-                    st.session_state.conversation_history = [INITIAL_MESSAGE]  # Reset history
+            if restart_button:
+                st.session_state.conversation_history = [INITIAL_MESSAGE]  # Reset history
 
-        # Display conversation history in the chat history container
-        with chat_history_container:
-            chat_history = ""
-            for line in reversed(st.session_state.conversation_history):
-                if line.startswith("You:"):
-                    chat_history += f'<div class="chat-message user">{line}</div>'
-                else:
-                    chat_history += f'<div class="chat-message bot">{line}</div>'
-            st.markdown(f'<div class="chat-history">{chat_history}</div>', unsafe_allow_html=True)
+    # Display conversation history in the chat history container
+    with chat_history_container:
+        chat_history = ""
+        for line in reversed(st.session_state.conversation_history):
+            if line.startswith("You:"):
+                chat_history += f'<div class="chat-message user">{line}</div>'
+            else:
+                chat_history += f'<div class="chat-message bot">{line}</div>'
+        st.markdown(f'<div class="chat-history">{chat_history}</div>', unsafe_allow_html=True)
 
-    elif menu_option == "Feedback":
-        # Feedback section
+    # Feedback section
+    if st.sidebar.radio("Select an option:", ["Home", "Feedback", "About"]) == "Feedback":
         st.header("Feedback")
         st.write("We value your feedback! Please let us know your thoughts about the chatbot.")
         
@@ -288,8 +279,8 @@ def main():
         if feedback:
             st.markdown(f'<a href="{feedback_link}" class="feedback-button">📧 Send Feedback via Email</a>', unsafe_allow_html=True)
 
-    elif menu_option == "About":
-        # Updated About section
+    # Updated About section
+    elif st.sidebar.radio("Select an option:", ["Home", "Feedback", "About"]) == "About":
         st.header("About")
         st.write("""
         Welcome to our chatbot! This virtual friend is here to provide support for your mental health. 
