@@ -61,32 +61,26 @@ def main():
         unsafe_allow_html=True
     )
 
-    # Theme switching
-    theme = st.sidebar.selectbox("Select Theme:", ["Light", "Dark"])
+    # Sidebar for navigation
+    st.sidebar.title("Menu")
+    menu_option = st.sidebar.radio("Select an option:", ["Home", "Feedback", "About"])
 
-    # Apply styles based on selected theme
-    if theme == "Dark":
-        bg_color = "#2E2E2E"
-        text_color = "#FFFFFF"
-        input_bg_color = "#444444"
-        button_color = "#4CAF50"
-    else:
-        bg_color = "#F9F9F9"
-        text_color = "#333333"
-        input_bg_color = "#FFFFFF"
-        button_color = "#87CEEB"
-
+    # Apply styles
     st.markdown(f"""
         <style>
             body {{
-                background-color: {bg_color};
-                color: {text_color};
+                font-family: 'Arial', sans-serif;
+                background-color: #f0f4f8;
+                color: #333;
+                margin: 0;
+                padding: 0;
+                transition: background-color 0.3s ease;
             }}
             .header-container {{
                 display: flex;
                 align-items: center;
                 padding: 10px;
-                background-color: #f1f1f1;
+                background-color: #87CEEB;
                 border-bottom: 1px solid #ddd;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }}
@@ -96,15 +90,15 @@ def main():
             .header-message {{
                 font-size: 24px;
                 font-weight: bold;
-                color: {text_color};
-                text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+                color: #FFFFFF;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
             }}
             .chat-container {{
                 display: flex;
                 flex-direction: column;
                 height: 80vh;
                 border: 1px solid #ddd;
-                background-color: #f9f9f9;
+                background-color: #ffffff;
                 border-radius: 8px;
                 overflow: hidden;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -116,6 +110,18 @@ def main():
                 display: flex;
                 flex-direction: column-reverse;
                 justify-content: flex-start;
+                scrollbar-width: thin; /* Firefox */
+                scrollbar-color: #888 #f1f1f1; /* Firefox */
+            }}
+            .chat-history::-webkit-scrollbar {{
+                width: 8px;
+            }}
+            .chat-history::-webkit-scrollbar-track {{
+                background: #f1f1f1;
+            }}
+            .chat-history::-webkit-scrollbar-thumb {{
+                background: #888;
+                border-radius: 10px;
             }}
             .chat-message {{
                 margin-bottom: 10px;
@@ -123,26 +129,23 @@ def main():
                 border-radius: 10px;
                 max-width: 80%;
                 word-wrap: break-word;
-                transition: background-color 0.2s, transform 0.2s;
+                transition: background-color 0.3s, transform 0.2s;
+                animation: fadeIn 0.5s ease;
             }}
             .chat-message.user {{
                 align-self: flex-end;
                 background-color: #e1ffc7; /* Light green for user */
                 color: #000;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             }}
             .chat-message.bot {{
                 align-self: flex-start;
                 background-color: #d9edf7; /* Light blue for bot */
                 color: #000;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             }}
             .input-container {{
                 padding: 10px;
-                background-color: {input_bg_color};
+                background-color: #ffffff;
                 border-top: 1px solid #ddd;
-                box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
-                z-index: 1;
                 display: flex;
                 flex-direction: column;
             }}
@@ -152,7 +155,6 @@ def main():
                 border-radius: 4px;
                 margin-bottom: 10px;
                 width: 100%;
-                background-color: {input_bg_color};
                 transition: border 0.3s;
             }}
             .input-container input:focus {{
@@ -160,17 +162,16 @@ def main():
                 outline: none;
             }}
             .input-container button {{
-                padding: 15px;  
+                padding: 15px;
                 border: none;
                 border-radius: 8px;
-                font-size: 18px;  
+                font-size: 18px;
                 font-weight: bold;
                 color: white !important;
                 cursor: pointer;
                 transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                flex: 1;
-                background-color: {button_color};
+                background-color: #87CEEB;
             }}
             .input-container button:hover {{
                 background-color: #00BFFF !important;
@@ -198,30 +199,13 @@ def main():
                 transform: scale(1.05);
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             }}
-            @media (max-width: 600px) {{
-                .header-message {{
-                    font-size: 20px;
+            @keyframes fadeIn {{
+                from {{
+                    opacity: 0;
                 }}
-                .input-container input {{
-                    font-size: 14px;
+                to {{
+                    opacity: 1;
                 }}
-                .chat-message {{
-                    font-size: 14px;
-                }}
-            }}
-            /* Custom scrollbar styles */
-            ::-webkit-scrollbar {{
-                width: 10px;
-            }}
-            ::-webkit-scrollbar-track {{
-                background: #f1f1f1;
-            }}
-            ::-webkit-scrollbar-thumb {{
-                background: #888;
-                border-radius: 5px;
-            }}
-            ::-webkit-scrollbar-thumb:hover {{
-                background: #555;
             }}
         </style>
     """, unsafe_allow_html=True)
@@ -263,8 +247,8 @@ def main():
                 chat_history += f'<div class="chat-message bot">{line}</div>'
         st.markdown(f'<div class="chat-history">{chat_history}</div>', unsafe_allow_html=True)
 
-    # Feedback section
-    if st.sidebar.radio("Select an option:", ["Home", "Feedback", "About"]) == "Feedback":
+    if menu_option == "Feedback":
+        # Feedback section
         st.header("Feedback")
         st.write("We value your feedback! Please let us know your thoughts about the chatbot.")
         
@@ -273,14 +257,12 @@ def main():
         if st.button("Generate Feedback Link"):
             if feedback:
                 feedback_link = f"mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body={feedback}"
+                st.markdown(f'<a href="{feedback_link}" class="feedback-button">📧 Send Feedback via Email</a>', unsafe_allow_html=True)
             else:
                 st.error("Please enter your feedback before sending.")
-        
-        if feedback:
-            st.markdown(f'<a href="{feedback_link}" class="feedback-button">📧 Send Feedback via Email</a>', unsafe_allow_html=True)
 
-    # Updated About section
-    elif st.sidebar.radio("Select an option:", ["Home", "Feedback", "About"]) == "About":
+    elif menu_option == "About":
+        # Updated About section
         st.header("About")
         st.write("""
         Welcome to our chatbot! This virtual friend is here to provide support for your mental health. 
