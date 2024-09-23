@@ -3,16 +3,22 @@ import random
 import streamlit as st
 from langchain_groq import ChatGroq
 from dotenv import load_dotenv
-
 # Load environment variables from .env file
 load_dotenv()
+
+# Get the API keys as a single string from the environment variable
 api_keys_string = os.getenv('GROQ_API_KEYS')
 
-# Split the string by newlines and remove any extra whitespace
-api_keys_list = [key.strip() for key in api_keys_string.splitlines() if key.strip()]
+# Split the string by commas and remove any extra whitespace
+api_keys_list = [key.strip() for key in api_keys_string.split(',') if key.strip()]
 
-# Select a random API key from the list
+# Check if the list is empty and handle accordingly
+if not api_keys_list:
+    raise ValueError("No API keys found. Please check your .env file.")
+
+# Example of using the API keys
 random_api_key = random.choice(api_keys_list)
+
 
 MODEL_NAME = os.getenv('MODEL_NAME')
 llm = ChatGroq(
