@@ -49,6 +49,18 @@ def chat_with_user(user_input):
 def main():
     st.set_page_config(page_title="Chatbot", layout="wide")
 
+    # Popup message for mobile users
+    st.markdown(
+        """
+        <script>
+            if (window.innerWidth <= 600) {
+                alert('Kindly use desktop mode for better experience.');
+            }
+        </script>
+        """,
+        unsafe_allow_html=True
+    )
+
     # Sidebar for navigation with dynamic styles
     st.sidebar.title("Menu")
     menu_option = st.sidebar.radio("Select an option:", ["Home", "Feedback", "About"], 
@@ -59,13 +71,15 @@ def main():
         <style>
             .stRadio > label {
                 display: block;
-                padding: 10px;
+                padding: 12px;
                 margin: 5px 0;
-                border-radius: 4px;
-                transition: background-color 0.3s;
+                border-radius: 8px;
+                background-color: #e8f5e9;
+                transition: background-color 0.3s, transform 0.2s;
             }
             .stRadio > label:hover {
-                background-color: #e0f7fa;  /* Light cyan on hover */
+                background-color: #c8e6c9;  /* Light green on hover */
+                transform: scale(1.02);
             }
             .stRadio > div {
                 margin-bottom: 15px;
@@ -87,6 +101,7 @@ def main():
                 padding: 10px;
                 background-color: #f1f1f1;
                 border-bottom: 1px solid #ddd;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
             .header-logo {
                 margin-right: 20px;
@@ -95,6 +110,7 @@ def main():
                 font-size: 24px;
                 font-weight: bold;
                 color: #333;
+                text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
             }
             .chat-container {
                 display: flex;
@@ -104,6 +120,7 @@ def main():
                 background-color: #f9f9f9;
                 border-radius: 8px;
                 overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
             .chat-history {
                 flex: 1;
@@ -119,16 +136,19 @@ def main():
                 border-radius: 10px;
                 max-width: 80%;
                 word-wrap: break-word;
+                transition: background-color 0.2s, transform 0.2s;
             }
             .chat-message.user {
                 align-self: flex-end;
                 background-color: #e1ffc7; /* Light green for user */
                 color: #000;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             }
             .chat-message.bot {
                 align-self: flex-start;
                 background-color: #d9edf7; /* Light blue for bot */
                 color: #000;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             }
             .input-container {
                 padding: 10px;
@@ -145,20 +165,23 @@ def main():
                 border-radius: 4px;
                 margin-bottom: 10px;
                 width: 100%;
+                transition: border 0.3s;
+            }
+            .input-container input:focus {
+                border: 1px solid #87CEEB;
+                outline: none;
             }
             .input-container button {
-                padding: 15px;  /* Increased size */
+                padding: 15px;  
                 border: none;
                 border-radius: 8px;
-                font-size: 18px;  /* Increased font size */
+                font-size: 18px;  
                 font-weight: bold;
                 color: white !important;
                 cursor: pointer;
                 transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
                 flex: 1;
-                position: relative;  /* For animation */
-                overflow: hidden;  /* For button effect */
             }
             .input-container button.send-button {
                 background-color: #87CEEB !important;
@@ -194,7 +217,6 @@ def main():
             }
             .feedback-button:hover {
                 background-color: #00BFFF !important;
-                color: white !important;
                 transform: scale(1.05);
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             }
