@@ -80,9 +80,9 @@ def main():
                 display: flex;
                 align-items: center;
                 padding: 10px;
-                background-color: #87CEEB;
                 border-bottom: 1px solid #ddd;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                background: none; /* Removed background color */
             }}
             .header-logo {{
                 margin-right: 20px;
@@ -90,7 +90,7 @@ def main():
             .header-message {{
                 font-size: 24px;
                 font-weight: bold;
-                color: #FFFFFF;
+                color: #333;
                 text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
             }}
             .chat-container {{
@@ -221,33 +221,33 @@ def main():
     chat_history_container = st.container()
     input_container = st.container()
 
-    # Input container
-    with input_container:
-        with st.form("chat_form", clear_on_submit=True):
-            user_input = st.text_input("", placeholder="Enter your message", key="input_box")
-            col1, col2 = st.columns([2, 1])
-            with col1:
-                submit_button = st.form_submit_button("➤")  # Send button
-            with col2:
-                restart_button = st.form_submit_button("⟳")  # Restart button
+    if menu_option == "Home":
+        with input_container:
+            with st.form("chat_form", clear_on_submit=True):
+                user_input = st.text_input("", placeholder="Enter your message", key="input_box")
+                col1, col2 = st.columns([2, 1])
+                with col1:
+                    submit_button = st.form_submit_button("➤")  # Send button
+                with col2:
+                    restart_button = st.form_submit_button("⟳")  # Restart button
 
-            if submit_button and user_input:
-                chat_with_user(user_input)
+                if submit_button and user_input:
+                    chat_with_user(user_input)
 
-            if restart_button:
-                st.session_state.conversation_history = [INITIAL_MESSAGE]  # Reset history
+                if restart_button:
+                    st.session_state.conversation_history = [INITIAL_MESSAGE]  # Reset history
 
-    # Display conversation history in the chat history container
-    with chat_history_container:
-        chat_history = ""
-        for line in reversed(st.session_state.conversation_history):
-            if line.startswith("You:"):
-                chat_history += f'<div class="chat-message user">{line}</div>'
-            else:
-                chat_history += f'<div class="chat-message bot">{line}</div>'
-        st.markdown(f'<div class="chat-history">{chat_history}</div>', unsafe_allow_html=True)
+        # Display conversation history in the chat history container
+        with chat_history_container:
+            chat_history = ""
+            for line in reversed(st.session_state.conversation_history):
+                if line.startswith("You:"):
+                    chat_history += f'<div class="chat-message user">{line}</div>'
+                else:
+                    chat_history += f'<div class="chat-message bot">{line}</div>'
+            st.markdown(f'<div class="chat-history">{chat_history}</div>', unsafe_allow_html=True)
 
-    if menu_option == "Feedback":
+    elif menu_option == "Feedback":
         # Feedback section
         st.header("Feedback")
         st.write("We value your feedback! Please let us know your thoughts about the chatbot.")
