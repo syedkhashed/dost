@@ -81,8 +81,8 @@ def main():
                 align-items: center;
                 padding: 10px;
                 border-bottom: 1px solid #ddd;
+                background-color: #f9f9f9; /* Light background */
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                background: none; /* Removed background color */
             }}
             .header-logo {{
                 margin-right: 20px;
@@ -210,12 +210,14 @@ def main():
         </style>
     """, unsafe_allow_html=True)
 
-    st.markdown("""<div class="header-container">
-        <div class="header-logo">
-            <img src='https://imgur.com/nnZtupY.png' width="100" alt="Logo">
-        </div>
-        <div class="header-message">Welcome to the chatbot!</div>
-    </div>""", unsafe_allow_html=True)
+    # Header only for Home
+    if menu_option == "Home":
+        st.markdown("""<div class="header-container">
+            <div class="header-logo">
+                <img src='https://imgur.com/nnZtupY.png' width="100" alt="Logo">
+            </div>
+            <div class="header-message">Welcome to the chatbot!</div>
+        </div>""", unsafe_allow_html=True)
 
     # Create chat layout with conversation history above input box
     chat_history_container = st.container()
