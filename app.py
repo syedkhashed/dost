@@ -10,7 +10,7 @@ load_dotenv()
 api_keys_string = os.getenv('GROQ_API_KEYS')
 
 # Split the string by newlines and remove any extra whitespace
-        st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
+st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
 
 def main():
     st.set_page_config(page_title="Chatbot", layout="wide")  # Set wide mode
