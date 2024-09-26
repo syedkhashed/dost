@@ -3,6 +3,7 @@ import random
 import streamlit as st
 from langchain_groq import ChatGroq
 from dotenv import load_dotenv
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -18,7 +19,6 @@ if not api_keys_list:
 
 # Example of using the API keys
 random_api_key = random.choice(api_keys_list)
-
 
 MODEL_NAME = os.getenv('MODEL_NAME')
 llm = ChatGroq(
@@ -42,12 +42,21 @@ def chat_with_user(user_input):
 
     # Create prompt with the full conversation history
     conversation_history = "\n".join(st.session_state.conversation_history)
-    prompt = chat_prompt.format(conversation_history=conversation_history)
+
+    # Debugging line to check chat_prompt
+    st.write("Chat Prompt:", chat_prompt)
+
     try:
+        # Ensure chat_prompt is valid
+        prompt = chat_prompt.format(conversation_history=conversation_history)
+
         # Invoke Llama model via Groq API
         response = llm.invoke(prompt)
         chatbot_response = response.content.strip() if hasattr(response, 'content') else "Sorry, I didn't get that."
         st.session_state.conversation_history.append(f"Chatbot: {chatbot_response}")
+    except KeyError as ke:
+        st.error(f"Key error: {ke}")
+        st.session_state.conversation_history.append("Chatbot: Error occurred during formatting.")
     except Exception as e:
         # Handle API errors
         st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
@@ -87,7 +96,7 @@ def main():
                 align-items: center;
                 padding: 10px;
                 border-bottom: 1px solid #ddd;
-                background-color: #f9f9f9; /* Light background */
+                background-color: #f9f9f9;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }}
             .header-logo {{
@@ -116,8 +125,8 @@ def main():
                 display: flex;
                 flex-direction: column-reverse;
                 justify-content: flex-start;
-                scrollbar-width: thin; /* Firefox */
-                scrollbar-color: #888 #f1f1f1; /* Firefox */
+                scrollbar-width: thin;
+                scrollbar-color: #888 #f1f1f1;
             }}
             .chat-history::-webkit-scrollbar {{
                 width: 8px;
@@ -140,12 +149,12 @@ def main():
             }}
             .chat-message.user {{
                 align-self: flex-end;
-                background-color: #e1ffc7; /* Light green for user */
+                background-color: #e1ffc7;
                 color: #000;
             }}
             .chat-message.bot {{
                 align-self: flex-start;
-                background-color: #d9edf7; /* Light blue for bot */
+                background-color: #d9edf7;
                 color: #000;
             }}
             .input-container {{
