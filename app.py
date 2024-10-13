@@ -14,7 +14,7 @@ load_dotenv()
 # # Select a random API key from the list
 # random_api_key = random.choice(api_keys_list)
 
-random_api_key=os.getenv('GROQ_API_KEYS')
+random_api_key='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'
 
 MODEL_NAME = os.getenv('MODEL_NAME')
 llm = ChatGroq(
