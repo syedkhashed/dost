@@ -13,6 +13,7 @@ api_keys_list = [key.strip() for key in api_keys_string.split(',') if key.strip(
 
 # Select a random API key from the list
 random_api_key = random.choice(api_keys_list)
+print(random_api_key)
 
 MODEL_NAME = os.getenv('MODEL_NAME')
 llm = ChatGroq(
