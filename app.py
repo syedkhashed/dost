@@ -49,6 +49,7 @@ def chat_with_user(user_input):
         st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
 
 def main():
+    st.wirte(random_api_key)
     st.set_page_config(page_title="Chatbot", layout="wide")
 
     # Sidebar for navigation with dynamic styles
