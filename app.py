@@ -8,12 +8,15 @@ from dotenv import load_dotenv
 load_dotenv()
 api_keys_string = os.getenv('GROQ_API_KEYS')
 
-# Split the string by commas and remove any extra whitespace
-api_keys_list = [key.strip() for key in api_keys_string.split(',') if key.strip()]
+
+# Split the string by newlines and remove any extra whitespace
+api_keys_list = [key.strip() for key in api_keys_string.splitlines() if key.strip()]
+
+# # Split the string by commas and remove any extra whitespace
+# api_keys_list = [key.strip() for key in api_keys_string.split(',') if key.strip()]
 
 # Select a random API key from the list
 random_api_key = random.choice(api_keys_list)
-print(random_api_key)
 
 MODEL_NAME = os.getenv('MODEL_NAME')
 llm = ChatGroq(
@@ -219,7 +222,7 @@ def main():
             <div class="header-logo">
                 <img src='https://imgur.com/nnZtupY.png' width="100" alt="Logo">
             </div>
-            st.wirte(random_api_key)
+            
             <div class="header-message">Welcome to the chatbot!</div>
         </div>""", unsafe_allow_html=True)
 
