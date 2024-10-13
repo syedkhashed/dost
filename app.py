@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 load_dotenv()
 api_keys_string = os.getenv('GROQ_API_KEYS')
 
-
 # Split the string by newlines and remove any extra whitespace
 api_keys_list = [key.strip() for key in api_keys_string.splitlines() if key.strip()]
 
@@ -17,6 +16,7 @@ api_keys_list = [key.strip() for key in api_keys_string.splitlines() if key.stri
 
 # Select a random API key from the list
 random_api_key = random.choice(api_keys_list)
+
 
 MODEL_NAME = os.getenv('MODEL_NAME')
 llm = ChatGroq(
@@ -52,7 +52,6 @@ def chat_with_user(user_input):
         st.session_state.conversation_history.append(f"Chatbot: Error occurred: {str(e)}")
 
 def main():
-    
     st.set_page_config(page_title="Chatbot", layout="wide")
 
     # Sidebar for navigation with dynamic styles
@@ -222,7 +221,6 @@ def main():
             <div class="header-logo">
                 <img src='https://imgur.com/nnZtupY.png' width="100" alt="Logo">
             </div>
-            
             <div class="header-message">Welcome to the chatbot!</div>
         </div>""", unsafe_allow_html=True)
 
