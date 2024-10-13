@@ -261,7 +261,7 @@ def main():
         
         if st.button("Generate Feedback Link"):
             if feedback:
-                feedback_link = f"mailto:khashedofficial@gmail.com?subject=Feedback on Chatbot&body={feedback}"
+                feedback_link = f"mailto:dehsahkdeys@gmail.com?subject=Feedback on Chatbot&body={feedback}"
                 st.markdown(f'<a href="{feedback_link}" class="feedback-button">📧 Send Feedback via Email</a>', unsafe_allow_html=True)
             else:
                 st.error("Please enter your feedback before sending.")
