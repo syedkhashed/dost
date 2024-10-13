@@ -6,15 +6,15 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
-# api_keys_string = os.getenv('GROQ_API_KEYS')
+api_keys_string = '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,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,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'
 
-# # Split the string by commas and remove any extra whitespace
-# api_keys_list = [key.strip() for key in api_keys_string.split(',') if key.strip()]
+# Split the string by commas and remove any extra whitespace
+api_keys_list = [key.strip() for key in api_keys_string.split(',') if key.strip()]
 
-# # Select a random API key from the list
-# random_api_key = random.choice(api_keys_list)
+# Select a random API key from the list
+random_api_key = random.choice(api_keys_list)
 
-random_api_key='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'
+#random_api_key='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'
 
 MODEL_NAME = os.getenv('MODEL_NAME')
 llm = ChatGroq(
