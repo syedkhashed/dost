@@ -86,12 +86,12 @@ def main():
         .header-container {
             display: flex;
             align-items: center;
-            padding: 10px;
+            padding: 1px;
             background-color: #f1f1f1;
             border-bottom: 1px solid #ddd;
         }
         .header-logo {
-            margin-right: 5px;
+            margin-right: 0px;
         }
         .header-message {
             font-size: 32px;
