@@ -91,10 +91,10 @@ def main():
             border-bottom: 1px solid #ddd;
         }
         .header-logo {
-            margin-right: 20px;
+            margin-right: 5px;
         }
         .header-message {
-            font-size: 24px;
+            font-size: 32px;
             font-weight: bold;
             color: #333;
         }
