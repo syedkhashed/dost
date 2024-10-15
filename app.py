@@ -219,7 +219,7 @@ def main():
             <div class="header-logo">
                 <img src='https://imgur.com/nnZtupY.png' width="100" alt="Logo">
             </div>
-            <div class="header-message">Welcome to the chatbot!</div>
+            <div class="header-message">Welcome to Apollo Mental Health Chatbot!</div>
         </div>""", unsafe_allow_html=True)
 
         # Create chat layout with conversation history above input box
